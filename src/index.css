@@ -1,0 +1,23 @@
+
+
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+textarea {
+  resize: none;
+}
+
+.image-table {
+  width: 125px;
+  height: 100px;
+}
+
+.big-image {
+  width: 150px;
+  height: 150px;
+}

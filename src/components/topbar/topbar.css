@@ -1,0 +1,8 @@
+.icon img{
+    width: 24;
+    height: 32;
+}
+
+.top-item:hover {
+    background-color: rgba(160, 160, 160, 0.11);
+}
