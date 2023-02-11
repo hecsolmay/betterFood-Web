@@ -1,25 +1,22 @@
 import React, { useEffect, useState } from "react";
 import {
-  Headers,
+  ButtonModal,
   ContainerAdmin,
   ContainerFluid,
-  ButtonModal,
+  Headers,
 } from "../common";
+import { TableHeaders, TableItems } from "../components/categories";
+import CategoryForm from "../components/categories/form";
+import CategoryFormUpdate from "../components/categories/updateForm";
 import Modal from "../components/modal";
 import Table from "../components/tables/table";
+import { postFile } from "../services/";
 import {
-  TableHeaders,
-  TableItems,
-  CategoryForm,
-  CategoryFormUpdate,
-} from "../components/categories";
-import {
-  getCategories,
-  deleteCategory,
   createCategory,
+  deleteCategory,
+  getCategories,
   updateCategory,
 } from "../services/categories";
-import { postFile } from "../services/";
 
 const categories = () => {
   const [categories, setCategories] = useState([]);
@@ -27,54 +24,79 @@ const categories = () => {
   const [form, setForm] = useState({});
   const [id, setId] = useState("");
   const [image, setImage] = useState("");
-  const [nombre, setNombre] = useState("");
   const [loading, setLoading] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleCategoriesChange = (categories) => {
     setCategories(categories);
   };
 
   const handleFileUpload = async (ev) => {
-    setLoading(true);
-    console.log({ loading });
+    setUploading(true);
+    console.log(ev);
+    setImage("");
+    console.log({ uploading });
     console.log(ev.target.files[0]);
     const file = ev.target.files[0];
 
-    const data = await postFile({
-      file,
-      upload_preset: "Productos",
-    });
-    setForm({ ...form, imgURL: data.url });
-    setImage(data.url);
-    setLoading(false);
-    console.log({ loading });
+    try {
+      const data = await postFile({
+        file,
+        upload_preset: "Productos",
+      });
+      setForm({ ...form, imgURL: data.url });
+      setImage(data.url);
+    } catch (error) {
+      alert("La imagen no se pudo subir intentalo de nuevo");
+      ev.target.value = "";
+    }
+    setUploading(false);
   };
 
+  const setPromises = () => {
+    let imageTest =
+      "https://cdn.pixabay.com/photo/2013/11/12/01/29/bar-209148_1280.jpg";
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        // resolve(imageTest);
+        reject("Rechazado");
+      }, 2000);
+    });
+  };
   const handleFormChange = (ev) => {
     setForm({ ...form, [ev.target.name]: ev.target.value });
     console.log(form);
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (ev) => {
+    ev.preventDefault();
     if (loading) return alert("Todavia Estan cargando los datos");
 
+    console.log(form);
+    await createCategory(form);
     alert("Creado Con exito");
     $("#Modal").modal("hide");
     $("#name").val("");
     $("#image").val("");
-    await createCategory(form);
     setForm({});
-    getCategories({ setCategories, setInfo });
+    setImage("");
+    getData();
   };
 
   const resetForm = () => {
-    setImage("");
-    setNombre("");
     setId("");
+    $("#Modal").modal("hide");
+    $("#name").val("");
+    $("#image").val("");
+    $("#ModalUpdate").modal("hide");
     setForm({});
+    setImage("");
+    getData();
   };
 
-  const handleUpdate = async () => {
+  const handleUpdate = async (ev) => {
+    ev.preventDefault();
     if (loading) return alert("Todavia Estan Cargando los datos");
     setForm({ ...form, imgURL: image });
     console.log("Formulario");
@@ -82,14 +104,14 @@ const categories = () => {
     console.log(id);
     await updateCategory({ id, newCategory: form });
     alert("Actualizado");
-    $("#ModalUpdate").modal("hide");
-    getCategories({ setCategories, setInfo });
+
+    getData();
   };
 
   const handleEdit = (category) => {
     $("#ModalUpdate").modal("show");
     setImage(category.imgURL);
-    setNombre(category.name);
+    setForm({ ...form, name: category.name });
     setId(category._id);
   };
 
@@ -98,11 +120,26 @@ const categories = () => {
     console.log({ name });
     await deleteCategory(id);
     alert(`Borrado con exito ${name}`);
-    getCategories({ setCategories, setInfo });
+    getData();
+  };
+
+  const getData = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const data = await getCategories();
+      console.log(data);
+      setCategories(data.results);
+      setInfo(data.info);
+    } catch (error) {
+      console.log(error);
+      setError(error);
+    }
+    setLoading(false);
   };
 
   useEffect(() => {
-    getCategories({ setCategories, setInfo });
+    getData();
   }, []);
 
   return (
@@ -110,27 +147,38 @@ const categories = () => {
       <ContainerFluid>
         <Headers title="Categories" />
         <ButtonModal title="Crear Categoria" />
-        <Table title="Tabla de Categorias" info={info}>
-          <TableHeaders />
-          {categories.length !== 0 && (
+        <div className={error ? "text-center mb-5 mt-5" : "d-none  "}>
+          <h1>Ocurrio un error al traer los datos</h1>
+          <button className="btn btn-primary">Recargar</button>
+        </div>
+        {categories && (
+          <Table title="Tabla de Categorias" info={info}>
+            <TableHeaders />
             <TableItems
               categories={categories}
               handleDelete={handleDelete}
               handleEdit={handleEdit}
-            />
-          )}
-        </Table>
+            >
+              {loading && (
+                <tr className="text-center">
+                  <td colSpan={6}>{"VIENDO DESDE LA TABLA"}</td>
+                </tr>
+              )}
+            </TableItems>
+          </Table>
+        )}
 
         <Modal
           id="Modal"
           title="Crear Categoria"
           action="Crear"
-          handleSubmit={handleSubmit}
           resetForm={resetForm}
           btnClass={loading ? "btn btn-primary disabled" : "btn btn-primary"}
         >
           <CategoryForm
             categoryImg={image}
+            uploading={uploading}
+            handleSubmit={handleSubmit}
             handleFileUpload={handleFileUpload}
             handleFormChange={handleFormChange}
           />
@@ -140,15 +188,18 @@ const categories = () => {
           id="ModalUpdate"
           title="Actualizar Categoria"
           action="Actualizar"
-          handleSubmit={handleUpdate}
           resetForm={resetForm}
           btnClass={loading ? "btn btn-warning disabled" : "btn btn-warning"}
+          formId="formUpdate"
         >
           <CategoryFormUpdate
+            id="formUpdate"
+            uploading={uploading}
+            handleSubmit={handleUpdate}
             handleFileUpload={handleFileUpload}
             handleFormChange={handleFormChange}
             categoryImg={image}
-            name={nombre}
+            name={form.name}
           />
         </Modal>
       </ContainerFluid>

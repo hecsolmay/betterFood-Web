@@ -20,6 +20,12 @@ export const ButtonModal = ({ title = "" }) => (
   </button>
 );
 
+export const Loader = () => (
+  <div className="text-center">
+    <img src="img/loading.gif" className="loader" />
+  </div>
+);
+
 export const ContainerAdmin = ({ children }) => {
   const [showSideBar, setShowSideBar] = useState(true);
 

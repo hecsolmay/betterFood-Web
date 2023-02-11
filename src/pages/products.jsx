@@ -1,20 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
-  Headers,
+  ButtonModal,
   ContainerAdmin,
   ContainerFluid,
-  ButtonModal,
+  Headers,
 } from "../common";
-import Table from "../components/products/table";
-import { postFile } from "../services";
-import {
-  getProducts,
-  createProduct,
-  deleteProduct,
-} from "../services/products";
-import { getCategories } from "../services/categories";
+import Modal from "../components/modal";
 import { TableHeaders, TableItems } from "../components/products";
 import { ProductForm } from "../components/products/forms";
+import Table from "../components/products/table";
+import { postFile } from "../services";
+import { getCategories } from "../services/categories";
+import * as services from "../services/products";
 
 const products = () => {
   const [products, setProducts] = useState([]);
@@ -25,6 +22,7 @@ const products = () => {
   const [ingredents, setIngredents] = useState([]);
   const [selected, setSelected] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleEdit = (product) => {
     console.log(product);
@@ -40,9 +38,9 @@ const products = () => {
   const handleDelete = async ({ id, name }) => {
     console.log({ id });
     console.log({ name });
-    await deleteProduct(id);
+    await services.deleteProduct(id);
     alert(`Borrado con exito ${name}`);
-    getProducts({ setProducts, setInfo });
+    services.getProducts({ setProducts, setInfo });
   };
 
   const handleFileUpload = async (ev) => {
@@ -66,18 +64,20 @@ const products = () => {
     setForm({ ...form, [ev.target.name]: ev.target.value });
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (ev) => {
+    ev.preventDefault();
+    console.log("Entro Al submit externo");
     const categories = selected.map((s) => s.value);
-
     const body = {
       ...form,
       categories,
       ingredents,
     };
 
+    console.log(body);
     if (loading) return alert("Todavia Estan cargando los datos");
 
-    await createProduct(body);
+    await services.createProduct(body);
     alert("Creado Con exito");
     $("#Modal").modal("hide");
     resetData();
@@ -88,13 +88,32 @@ const products = () => {
     setImage("");
     setIngredents([]);
     setSelected([]);
-    getProducts({ setProducts, setInfo });
+    services.getProducts({ setProducts, setInfo });
     getCategories({ setCategories });
   };
 
+  const getData = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const [dataProducts, dataCategories] = await Promise.all([
+        services.getProducts(),
+        getCategories(),
+      ]);
+      console.log("Entro al then");
+      setProducts(dataProducts.results);
+      setInfo(dataProducts.info);
+      setCategories(dataCategories.results);
+    } catch (error) {
+      console.log("Entro al error");
+      setError(error);
+    }
+
+    setLoading(false);
+  };
+
   useEffect(() => {
-    getProducts({ setProducts, setInfo });
-    getCategories({ setCategories });
+    getData();
   }, []);
 
   return (
@@ -102,12 +121,17 @@ const products = () => {
       <ContainerFluid>
         <Headers title="Products" />
         <ButtonModal title="Crear Producto" />
-
+        <div className={error ? "text-center mb-5 mt-5" : "d-none  "}>
+          <h1>Ocurrio un error al traer los datos</h1>
+          <button className="btn btn-primary" onClick={getData}>
+            Recargar
+          </button>
+        </div>
         <Modal
           title="Crear Producto"
           action="Crear"
-          handleSubmit={handleSubmit}
           btnClass={loading ? "btn btn-primary disabled" : "btn btn-primary"}
+          resetForm={resetData}
         >
           <ProductForm
             categories={categories}
@@ -118,13 +142,14 @@ const products = () => {
             handleIngredentsChange={handleIngredentsChange}
             setIngredents={setIngredents}
             ingredents={ingredents}
+            handleSubmit={handleSubmit}
             image={image}
           />
         </Modal>
-        {products.length !== 0 ? (
+        {products && (
           <Table info={info}>
             <TableHeaders />
-            {products && (
+            {products.length != 0 && (
               <TableItems
                 products={products}
                 handleEdit={handleEdit}
@@ -132,59 +157,10 @@ const products = () => {
               />
             )}
           </Table>
-        ) : null}
+        )}
       </ContainerFluid>
     </ContainerAdmin>
   );
 };
 
 export default products;
-
-const Modal = ({
-  title = "",
-  action = "",
-  children,
-  handleSubmit,
-  btnClass,
-}) => (
-  <div
-    className="modal fade"
-    id="Modal"
-    tabIndex="-1"
-    aria-labelledby="ModalLabel"
-    aria-hidden="true"
-  >
-    <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-      <div className="modal-content">
-        <div className="modal-header">
-          <h5 className="modal-title" id="ModalLabel">
-            {title}
-          </h5>
-          <button
-            type="button"
-            className="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
-        </div>
-        <div className="modal-body">{children}</div>
-        <div className="modal-footer">
-          <button
-            type="button"
-            className="btn btn-secondary"
-            data-bs-dismiss="modal"
-          >
-            Cerrar
-          </button>
-          <button type="button" onClick={handleSubmit} className={btnClass}>
-            {action}
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-);
-
-const handleSubmit = () => {
-  alert("Create Pressed");
-};

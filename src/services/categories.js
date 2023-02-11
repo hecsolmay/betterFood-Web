@@ -2,27 +2,23 @@ import axios from "axios";
 import { getTokenItem } from "../utils/localStorage";
 
 const categoriesURL = "http://localhost:3000/category/";
-const config = {
-  headers: { Authorization: `Bearer ${getTokenItem()}` },
-};
 
-export const getCategories = async ({ setCategories, setInfo }) => {
-  try {
-    const res = await axios.get(categoriesURL);
 
-    const { data } = res;
+export const getCategories = async () => {
+  const res = await axios.get(categoriesURL);
 
-    if(setInfo) setInfo(data.info);
-    setCategories(data.results);
-    return;
-  } catch (error) {
-    const { response } = error;
-    return response;
-  }
+  const { data } = res;
+
+  // if(setInfo) setInfo(data.info);
+  // setCategories(data.results);
+  return data;
 };
 
 export const createCategory = async (body) => {
   try {
+    const config = {
+      headers: { Authorization: `Bearer ${getTokenItem()}` },
+    };
     const res = await axios.post(categoriesURL, body, config);
     console.log(res);
 
@@ -38,6 +34,9 @@ export const createCategory = async (body) => {
 
 export const deleteCategory = async (id) => {
   try {
+    const config = {
+      headers: { Authorization: `Bearer ${getTokenItem()}` },
+    };
     console.log(id);
     const res = await axios.delete(`${categoriesURL}${id}`, config);
     console.log(res);
@@ -54,6 +53,9 @@ export const deleteCategory = async (id) => {
 
 export const updateCategory = async ({ id, newCategory }) => {
   try {
+    const config = {
+      headers: { Authorization: `Bearer ${getTokenItem()}` },
+    };
     const res = await axios.put(`${categoriesURL}${id}`, newCategory, config);
     console.log(res);
     return;

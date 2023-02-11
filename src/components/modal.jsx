@@ -7,7 +7,8 @@ const Modal = ({
   action = "",
   handleSubmit = handleSubmitDefault,
   btnClass = "btn btn-primary",
-  id,
+  id = "Modal",
+  formId = "form",
   resetForm,
   children,
 }) => (
@@ -29,6 +30,7 @@ const Modal = ({
             className="btn-close"
             data-bs-dismiss="modal"
             aria-label="Close"
+            onClick={resetForm}
           ></button>
         </div>
         <div className="modal-body">{children}</div>
@@ -41,7 +43,12 @@ const Modal = ({
           >
             Cerrar
           </button>
-          <button type="button" onClick={handleSubmit} className={btnClass}>
+          <button
+            type="submit"
+            form={formId}
+
+            className={btnClass}
+          >
             {action}
           </button>
         </div>

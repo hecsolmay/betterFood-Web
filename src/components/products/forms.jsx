@@ -10,6 +10,7 @@ export const ProductForm = ({
   ingredents,
   setIngredents,
   image,
+  handleSubmit,
 }) => {
   const handleChange = (ev, index) => {
     if (ev.target.name === "required") {
@@ -32,7 +33,7 @@ export const ProductForm = ({
     setIngredents([...ingredents]);
   };
   return (
-    <form className="row g-3">
+    <form className="row g-3" id="form" onSubmit={handleSubmit}>
       <div className="col-md-6">
         <label htmlFor="name" className="form-label">
           Nombre
@@ -42,6 +43,7 @@ export const ProductForm = ({
           className="form-control"
           id="name"
           name="name"
+          required
           onChange={handleFormChange}
         />
       </div>
