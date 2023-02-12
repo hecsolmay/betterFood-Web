@@ -1,16 +1,12 @@
 import axios from "axios";
+import { API_URL } from "../../config";
 import { getTokenItem } from "../utils/localStorage";
 
-const categoriesURL = "http://localhost:3000/category/";
-
+const categoriesURL = `${API_URL}category/`;
 
 export const getCategories = async () => {
   const res = await axios.get(categoriesURL);
-
   const { data } = res;
-
-  // if(setInfo) setInfo(data.info);
-  // setCategories(data.results);
   return data;
 };
 
@@ -23,7 +19,6 @@ export const createCategory = async (body) => {
     console.log(res);
 
     if (res.status != 200) {
-      setError("algo salio mal");
       return console.error("algo salio mal");
     }
     return;
@@ -37,7 +32,6 @@ export const deleteCategory = async (id) => {
     const config = {
       headers: { Authorization: `Bearer ${getTokenItem()}` },
     };
-    console.log(id);
     const res = await axios.delete(`${categoriesURL}${id}`, config);
     console.log(res);
 

@@ -1,13 +1,12 @@
 import axios from "axios";
 import { getTokenItem } from "../utils/localStorage";
+import { API_URL } from "../../config";
 
-const productURL = "http://localhost:3000/product/";
+const productURL = `${API_URL}product/`;
 
 export const getProducts = async () => {
   const res = await axios.get(productURL);
   const { data } = res;
-  // setInfo(data.info);
-  // setProducts(data.results);
   return data;
 };
 

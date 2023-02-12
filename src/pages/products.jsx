@@ -127,36 +127,49 @@ const products = () => {
             Recargar
           </button>
         </div>
-        <Modal
-          title="Crear Producto"
-          action="Crear"
-          btnClass={loading ? "btn btn-primary disabled" : "btn btn-primary"}
-          resetForm={resetData}
-        >
-          <ProductForm
-            categories={categories}
-            handleFormChange={handleFormChange}
-            setSelected={setSelected}
-            selected={selected}
-            handleFileUpload={handleFileUpload}
-            handleIngredentsChange={handleIngredentsChange}
-            setIngredents={setIngredents}
-            ingredents={ingredents}
-            handleSubmit={handleSubmit}
-            image={image}
-          />
-        </Modal>
-        {products && (
-          <Table info={info}>
-            <TableHeaders />
-            {products.length != 0 && (
-              <TableItems
-                products={products}
-                handleEdit={handleEdit}
-                handleDelete={handleDelete}
+
+        {loading && (
+          <div className="text-center ">
+            <img src="img/loading.gif" className="big-image mt-20" />
+          </div>
+        )}
+
+        {!loading && !error && (
+          <>
+            <Modal
+              title="Crear Producto"
+              action="Crear"
+              btnClass={
+                loading ? "btn btn-primary disabled" : "btn btn-primary"
+              }
+              resetForm={resetData}
+            >
+              <ProductForm
+                categories={categories}
+                handleFormChange={handleFormChange}
+                setSelected={setSelected}
+                selected={selected}
+                handleFileUpload={handleFileUpload}
+                handleIngredentsChange={handleIngredentsChange}
+                setIngredents={setIngredents}
+                ingredents={ingredents}
+                handleSubmit={handleSubmit}
+                image={image}
               />
+            </Modal>
+            {products && (
+              <Table info={info}>
+                <TableHeaders />
+                {products.length != 0 && (
+                  <TableItems
+                    products={products}
+                    handleEdit={handleEdit}
+                    handleDelete={handleDelete}
+                  />
+                )}
+              </Table>
             )}
-          </Table>
+          </>
         )}
       </ContainerFluid>
     </ContainerAdmin>

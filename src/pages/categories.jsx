@@ -149,59 +149,70 @@ const categories = () => {
         <ButtonModal title="Crear Categoria" />
         <div className={error ? "text-center mb-5 mt-5" : "d-none  "}>
           <h1>Ocurrio un error al traer los datos</h1>
-          <button className="btn btn-primary">Recargar</button>
+          <button className="btn btn-primary" onClick={getData}>Recargar</button>
         </div>
-        {categories && (
-          <Table title="Tabla de Categorias" info={info}>
-            <TableHeaders />
-            <TableItems
-              categories={categories}
-              handleDelete={handleDelete}
-              handleEdit={handleEdit}
-            >
-              {loading && (
-                <tr className="text-center">
-                  <td colSpan={6}>{"VIENDO DESDE LA TABLA"}</td>
-                </tr>
-              )}
-            </TableItems>
-          </Table>
+
+        {loading && (
+          <div className="text-center ">
+            <img src="img/loading.gif" className="big-image mt-20" />
+          </div>
         )}
 
-        <Modal
-          id="Modal"
-          title="Crear Categoria"
-          action="Crear"
-          resetForm={resetForm}
-          btnClass={loading ? "btn btn-primary disabled" : "btn btn-primary"}
-        >
-          <CategoryForm
-            categoryImg={image}
-            uploading={uploading}
-            handleSubmit={handleSubmit}
-            handleFileUpload={handleFileUpload}
-            handleFormChange={handleFormChange}
-          />
-        </Modal>
+        {!loading && !error && (
+          <>
+            <Modal
+              id="Modal"
+              title="Crear Categoria"
+              action="Crear"
+              resetForm={resetForm}
+              btnClass={
+                loading ? "btn btn-primary disabled" : "btn btn-primary"
+              }
+            >
+              <CategoryForm
+                categoryImg={image}
+                uploading={uploading}
+                handleSubmit={handleSubmit}
+                handleFileUpload={handleFileUpload}
+                handleFormChange={handleFormChange}
+              />
+            </Modal>
 
-        <Modal
-          id="ModalUpdate"
-          title="Actualizar Categoria"
-          action="Actualizar"
-          resetForm={resetForm}
-          btnClass={loading ? "btn btn-warning disabled" : "btn btn-warning"}
-          formId="formUpdate"
-        >
-          <CategoryFormUpdate
-            id="formUpdate"
-            uploading={uploading}
-            handleSubmit={handleUpdate}
-            handleFileUpload={handleFileUpload}
-            handleFormChange={handleFormChange}
-            categoryImg={image}
-            name={form.name}
-          />
-        </Modal>
+            <Modal
+              id="ModalUpdate"
+              title="Actualizar Categoria"
+              action="Actualizar"
+              resetForm={resetForm}
+              btnClass={
+                loading ? "btn btn-warning disabled" : "btn btn-warning"
+              }
+              formId="formUpdate"
+            >
+              <CategoryFormUpdate
+                id="formUpdate"
+                uploading={uploading}
+                handleSubmit={handleUpdate}
+                handleFileUpload={handleFileUpload}
+                handleFormChange={handleFormChange}
+                categoryImg={image}
+                name={form.name}
+              />
+            </Modal>
+
+            {categories && (
+              <Table title="Tabla de Categorias" info={info}>
+                <TableHeaders />
+                {categories.length !== 0 && (
+                  <TableItems
+                    categories={categories}
+                    handleDelete={handleDelete}
+                    handleEdit={handleEdit}
+                  />
+                )}
+              </Table>
+            )}
+          </>
+        )}
       </ContainerFluid>
     </ContainerAdmin>
   );
