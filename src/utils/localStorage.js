@@ -16,6 +16,6 @@ export const setItems = ({ user, token }) => {
 };
 
 export const removeLocalItems = () => {
-  window.localStorage.removeItem("user")
-  window.localStorage.removeItem("jwtoken")
-}
+  window.localStorage.removeItem("user");
+  window.localStorage.removeItem("jwtoken");
+};
