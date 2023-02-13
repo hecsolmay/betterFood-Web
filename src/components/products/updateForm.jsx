@@ -1,8 +1,9 @@
+import React from "react";
 import { CreateIngredent } from "./";
 import { MultiSelect } from "react-multi-select-component";
 import { Loader } from "../../common";
 
-export const ProductForm = ({
+const UpdateForm = ({
   categories = [],
   handleFormChange,
   handleFileUpload,
@@ -13,6 +14,8 @@ export const ProductForm = ({
   image,
   uploading = false,
   handleSubmit,
+  id = "formUpdate",
+  formData = { name: "", ofert: "", price: 0, description: "" },
 }) => {
   const handleChange = (ev, index) => {
     if (ev.target.name === "required") {
@@ -35,7 +38,7 @@ export const ProductForm = ({
     setIngredents([...ingredents]);
   };
   return (
-    <form className="row g-3" id="form" onSubmit={handleSubmit}>
+    <form className="row g-3" id={id} onSubmit={(ev) => handleSubmit(ev, 1)}>
       <div className="col-md-6">
         <label htmlFor="name" className="form-label">
           Nombre
@@ -46,6 +49,7 @@ export const ProductForm = ({
           id="name"
           name="name"
           required
+          value={formData.name}
           onChange={handleFormChange}
         />
       </div>
@@ -60,6 +64,7 @@ export const ProductForm = ({
           id="price"
           name="price"
           required
+          value={formData.price}
           onChange={handleFormChange}
         />
       </div>
@@ -73,6 +78,7 @@ export const ProductForm = ({
           rows="3"
           maxLength={200}
           required
+          value={formData.description}
           name="description"
           onChange={handleFormChange}
         />
@@ -130,10 +136,11 @@ export const ProductForm = ({
           id="productImage"
           type="file"
           accept=".jpg,.jpge,.png"
-          required
           onChange={handleFileUpload}
         />
       </div>
     </form>
   );
 };
+
+export default UpdateForm;

@@ -1,4 +1,3 @@
-
 // export const ProductForm = ({
 //   categories = [],
 //   handleFormChange,
@@ -133,13 +132,18 @@ export const TableHeaders = () => (
       <th>nombre</th>
       <th>precio</th>
       <th>ordenado</th>
-      <th>Editar</th>
-      <th>Eliminar</th>
+      <th>Activo</th>
+      <th>Acciones</th>
     </tr>
   </thead>
 );
 
-export const TableItems = ({ products = [], handleEdit, handleDelete }) => (
+export const TableItems = ({
+  products = [],
+  handleEdit,
+  handleDelete,
+  children,
+}) => (
   <tbody>
     {products.map((p) => (
       <tr key={p._id}>
@@ -147,21 +151,36 @@ export const TableItems = ({ products = [], handleEdit, handleDelete }) => (
         <td>{p.name}</td>
         <td>{p.price}</td>
         <td>{p.ordered}</td>
+        {children}
+        <td>{p.active === 1 ? "Si" : "No"}</td>
         <td>
-          <button
-            className="btn btn-sm btn-warning btn-addon ms-3"
-            onClick={() => handleEdit(p)}
-          >
-            <i className="fa fa-pen-to-square" />
-          </button>
-        </td>
-        <td>
-          <button
-            className="btn btn-sm btn-danger btn-addon ms-3"
-            onClick={() => handleDelete({ id: p._id, name: p.name })}
-          >
-            <i className="fa-solid fa-trash" />
-          </button>
+          {p.active === 1 ? (
+            <>
+              <button
+                className="btn btn-sm btn-warning btn-addon ms-3"
+                onClick={() => handleEdit(p)}
+              >
+                <i className="fa fa-pen-to-square" />
+              </button>
+              <button
+                className="btn btn-sm btn-danger btn-addon ms-3"
+                onClick={() =>
+                  handleDelete({ id: p._id, name: p.name, active: p.active })
+                }
+              >
+                <i className="fa-solid fa-trash" />
+              </button>
+            </>
+          ) : (
+            <button
+              className="btn btn-sm btn-primary btn-addon ms-3"
+              onClick={() =>
+                handleDelete({ id: p._id, name: p.name, active: p.active })
+              }
+            >
+              <i class="fa fa-arrows-rotate"></i>
+            </button>
+          )}
         </td>
       </tr>
     ))}
@@ -193,6 +212,7 @@ export const CreateIngredent = ({
       name="name"
       value={item.name}
       placeholder="Nombre"
+      required
     />
 
     {!required && (
@@ -204,6 +224,7 @@ export const CreateIngredent = ({
         placeholder="Precio"
         value={item.extraPrice}
         min={0}
+        required
       />
     )}
     <button

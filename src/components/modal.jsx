@@ -9,7 +9,7 @@ const Modal = ({
   btnClass = "btn btn-primary",
   id = "Modal",
   formId = "form",
-  resetForm,
+  resetForm = () => {},
   children,
 }) => (
   <div

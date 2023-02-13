@@ -7,13 +7,18 @@ export const TableHeaders = () => (
       <th>Imagen</th>
       <th>Nombre</th>
       <th>{"Productos Totales"}</th>
-      <th>Editar</th>
-      <th>Eliminar</th>
+      <th>Activo</th>
+      <th>Acciones</th>
     </tr>
   </thead>
 );
 
-export const TableItems = ({ categories = [], handleDelete, handleEdit, children }) => (
+export const TableItems = ({
+  categories = [],
+  handleDelete,
+  handleEdit,
+  children,
+}) => (
   <tbody>
     {children}
     {console.log("Categorias en Table Items")}
@@ -27,27 +32,47 @@ export const TableItems = ({ categories = [], handleDelete, handleEdit, children
             </td>
             <td>{c.name}</td>
             <td>{c.totalProducts}</td>
+            <td>{c.active === 1 ? "Si" : "No"}</td>
             <td>
-              <button
-                className="btn btn-sm btn-warning btn-addon ms-3"
-                onClick={() => handleEdit(c)}
-              >
-                <i className="fa fa-pen-to-square" />
-              </button>
-            </td>
-            <td>
-              <button
-                className="btn btn-sm btn-danger btn-addon ms-3"
-                onClick={() => handleDelete({ id: c._id, name: c.name })}
-              >
-                <i className="fa-solid fa-trash" />
-              </button>
+              {c.active === 1 ? (
+                <>
+                  <button
+                    className="btn btn-sm btn-warning btn-addon ms-3"
+                    onClick={() => handleEdit(c)}
+                  >
+                    <i className="fa fa-pen-to-square" />
+                  </button>
+                  <button
+                    className="btn btn-sm btn-danger btn-addon ms-3"
+                    onClick={() =>
+                      handleDelete({
+                        id: c._id,
+                        name: c.name,
+                        active: c.active,
+                      })
+                    }
+                  >
+                    <i className="fa-solid fa-trash" />
+                  </button>
+                </>
+              ) : (
+                <button
+                  className="btn btn-sm btn-primary btn-addon ms-3"
+                  onClick={() =>
+                    handleDelete({
+                      id: c._id,
+                      name: c.name,
+                      active: c.active,
+                      category: c,
+                    })
+                  }
+                >
+                  <i class="fa fa-arrows-rotate"></i>
+                </button>
+              )}
             </td>
           </tr>
         ))
       : null}
   </tbody>
 );
-
-
-
