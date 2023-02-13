@@ -39,3 +39,16 @@ export const deleteProduct = async (id) => {
     console.error(error);
   }
 };
+
+export const updateProduct = async ({ id, newProduct }) => {
+  try {
+    const config = {
+      headers: { Authorization: `Bearer ${getTokenItem()}` },
+    };
+    const res = await axios.put(`${productURL}${id}`, newProduct, config);
+    console.log(res);
+    return;
+  } catch (error) {
+    console.error(error);
+  }
+};

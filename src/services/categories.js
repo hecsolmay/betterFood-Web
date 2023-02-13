@@ -4,8 +4,10 @@ import { getTokenItem } from "../utils/localStorage";
 
 const categoriesURL = `${API_URL}category/`;
 
-export const getCategories = async () => {
-  const res = await axios.get(categoriesURL);
+export const getCategories = async (params) => {
+  const res = params
+    ? await axios.get(`${categoriesURL}${params}`)
+    : await axios.get(categoriesURL);
   const { data } = res;
   return data;
 };

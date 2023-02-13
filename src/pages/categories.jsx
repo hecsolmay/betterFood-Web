@@ -54,16 +54,6 @@ const categories = () => {
     setUploading(false);
   };
 
-  const setPromises = () => {
-    let imageTest =
-      "https://cdn.pixabay.com/photo/2013/11/12/01/29/bar-209148_1280.jpg";
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        // resolve(imageTest);
-        reject("Rechazado");
-      }, 2000);
-    });
-  };
   const handleFormChange = (ev) => {
     setForm({ ...form, [ev.target.name]: ev.target.value });
     console.log(form);
@@ -79,20 +69,18 @@ const categories = () => {
     $("#Modal").modal("hide");
     $("#name").val("");
     $("#image").val("");
-    setForm({});
-    setImage("");
+    resetForm();
     getData();
   };
 
   const resetForm = () => {
-    setId("");
     $("#Modal").modal("hide");
     $("#name").val("");
     $("#image").val("");
     $("#ModalUpdate").modal("hide");
+    setId("");
     setForm({});
     setImage("");
-    getData();
   };
 
   const handleUpdate = async (ev) => {
@@ -104,7 +92,7 @@ const categories = () => {
     console.log(id);
     await updateCategory({ id, newCategory: form });
     alert("Actualizado");
-
+    resetForm();
     getData();
   };
 
@@ -115,11 +103,16 @@ const categories = () => {
     setId(category._id);
   };
 
-  const handleDelete = async ({ id, name }) => {
+  const handleDelete = async ({ id, name, active, category }) => {
     console.log({ id });
     console.log({ name });
-    await deleteCategory(id);
-    alert(`Borrado con exito ${name}`);
+    console.log(category);
+    const body = active === 1 ? { active: 0 } : { active: 1 };
+    console.log(body);
+    const status = active === 1 ? "inactivo" : "activo";
+    // await deleteCategory(id);
+    await updateCategory({ id, newCategory: body });
+    alert(`Cambiado a estado ${status} ${name}`);
     getData();
   };
 
@@ -149,7 +142,9 @@ const categories = () => {
         <ButtonModal title="Crear Categoria" />
         <div className={error ? "text-center mb-5 mt-5" : "d-none  "}>
           <h1>Ocurrio un error al traer los datos</h1>
-          <button className="btn btn-primary" onClick={getData}>Recargar</button>
+          <button className="btn btn-primary" onClick={getData}>
+            Recargar
+          </button>
         </div>
 
         {loading && (
@@ -164,7 +159,6 @@ const categories = () => {
               id="Modal"
               title="Crear Categoria"
               action="Crear"
-              resetForm={resetForm}
               btnClass={
                 loading ? "btn btn-primary disabled" : "btn btn-primary"
               }
