@@ -2,7 +2,7 @@ import axios from "axios";
 import { getTokenItem } from "../utils/localStorage";
 import { API_URL } from "../../config";
 
-const productURL = `${API_URL}product/`;
+const productURL = `${API_URL}/product/`;
 
 export const getProducts = async () => {
   const res = await axios.get(productURL);

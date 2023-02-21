@@ -2,31 +2,22 @@ import axios from "axios";
 import { API_URL } from "../../config";
 import { getTokenItem } from "../utils/localStorage";
 
-const categoriesURL = `${API_URL}/category/`;
-const categoriesURLDTO = `${API_URL}/m/category`
+const ingredentsURL = `${API_URL}/ingredent/`;
 
-export const getCategories = async (params) => {
+export const getIngredents = async (params) => {
   const res = params
-    ? await axios.get(`${categoriesURL}${params}`)
-    : await axios.get(categoriesURL);
+    ? await axios.get(`${ingredentsURL}${params}`)
+    : await axios.get(ingredentsURL);
   const { data } = res;
   return data;
 };
 
-export const getCategoriesDTO = async (params) => {
-  const res = params
-    ? await axios.get(`${categoriesURLDTO}${params}`)
-    : await axios.get(categoriesURLDTO);
-  const { data } = res;
-  return data;
-};
-
-export const createCategory = async (body) => {
+export const createIngredent = async (body) => {
   try {
     const config = {
       headers: { Authorization: `Bearer ${getTokenItem()}` },
     };
-    const res = await axios.post(categoriesURL, body, config);
+    const res = await axios.post(ingredentsURL, body, config);
     console.log(res);
 
     if (res.status != 200) {
@@ -38,12 +29,12 @@ export const createCategory = async (body) => {
   }
 };
 
-export const deleteCategory = async (id) => {
+export const deleteIngredent = async (id) => {
   try {
     const config = {
       headers: { Authorization: `Bearer ${getTokenItem()}` },
     };
-    const res = await axios.delete(`${categoriesURL}${id}`, config);
+    const res = await axios.delete(`${ingredentsURL}${id}`, config);
     console.log(res);
 
     if (res.status != 200) {
@@ -56,12 +47,12 @@ export const deleteCategory = async (id) => {
   }
 };
 
-export const updateCategory = async ({ id, newCategory }) => {
+export const updateIngredent = async ({ id, newIngredent }) => {
   try {
     const config = {
       headers: { Authorization: `Bearer ${getTokenItem()}` },
     };
-    const res = await axios.put(`${categoriesURL}${id}`, newCategory, config);
+    const res = await axios.put(`${ingredentsURL}${id}`, newIngredent, config);
     console.log(res);
     return;
   } catch (error) {

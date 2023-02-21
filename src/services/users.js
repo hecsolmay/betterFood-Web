@@ -1,15 +1,10 @@
 import axios from "axios";
+import { API_URL } from "../../config";
 import { getTokenItem } from "../utils/localStorage";
-import { converDate } from "../utils";
 
-const signInURL = "http://localhost:3000/auth/singin";
-const signUpURL = "http://localhost:3000/auth/singup";
-const usersURL = "http://localhost:3000/user";
-
-const config = {
-  headers: { Authorization: `Bearer ${getTokenItem()}` },
-};
-
+const signInURL = `${API_URL}/auth/singin/`;
+const signUpURL = `${API_URL}/auth/singup/`;
+const usersURL = `${API_URL}/user`;
 
 export const singin = async (userData) => {
   try {
@@ -31,26 +26,18 @@ export const signup = async (user) => {
   }
 };
 
-export const getUsers = async () => {
+export const getUsers = async (params) => {
   try {
-    const res = await axios.get(usersURL, config);
+    const config = {
+      headers: { Authorization: `Bearer ${getTokenItem()}` },
+    };
+
+    const res = params
+      ? await axios.get(`${usersURL}${params}`, config)
+      : await axios.get(usersURL, config);
     return res;
   } catch (error) {
     const { response } = res;
     return;
   }
-};
-
-export const cleanUser = (user) => {
-  const { _id, username, email, rol, createdAt } = user;
-
-  const createDate = converDate(createdAt);
-
-  return {
-    id: _id,
-    username,
-    creado: createDate,
-    email,
-    rol: rol.name,
-  };
 };
