@@ -25,8 +25,8 @@ export const TableItems = ({
     {console.log(categories.length === 0)}
     {categories.length !== 0
       ? categories.map((c) => (
-          <tr key={c._id}>
-            <td>{c._id}</td>
+          <tr key={c.id}>
+            <td>{c.id}</td>
             <td className="text-center">
               <img src={c.imgURL} className="image-table" />
             </td>
@@ -46,7 +46,7 @@ export const TableItems = ({
                     className="btn btn-sm btn-danger btn-addon ms-3"
                     onClick={() =>
                       handleDelete({
-                        id: c._id,
+                        id: c.id,
                         name: c.name,
                         active: c.active,
                       })
@@ -60,7 +60,7 @@ export const TableItems = ({
                   className="btn btn-sm btn-primary btn-addon ms-3"
                   onClick={() =>
                     handleDelete({
-                      id: c._id,
+                      id: c.id,
                       name: c.name,
                       active: c.active,
                       category: c,

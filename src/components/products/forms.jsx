@@ -8,13 +8,18 @@ export const ProductForm = ({
   handleFileUpload,
   setSelected,
   selected,
-  ingredents,
+  ingredentsData,
+  ingredents = [],
   setIngredents,
   image,
   uploading = false,
   handleSubmit,
+  selectedIngredent,
+  setSelectedIngredent,
 }) => {
-  const handleChange = (ev, index) => {
+  const handleChange = (ev, id) => {
+    const index = ingredents.findIndex((i) => i.id == id);
+
     if (ev.target.name === "required") {
       ingredents[index] = {
         ...ingredents[index],
@@ -30,8 +35,39 @@ export const ProductForm = ({
     setIngredents([...ingredents]);
   };
 
-  const handleAddCount = () => {
-    ingredents.push({ required: true });
+  const handleAddIngredent = (item = []) => {
+    if (item.length === 0) {
+      return setIngredents([]);
+    }
+
+    let indexIngredents = ingredents.map((i) => i.id);
+
+    console.log(indexIngredents);
+    let newIngredents = item.filter((i) => !indexIngredents.includes(i.value));
+
+    console.log(newIngredents);
+
+    let cleanIngredents = newIngredents.map((i) => {
+      return {
+        name: i.label,
+        id: i.value,
+        required: true,
+      };
+    });
+
+    cleanIngredents.push(...ingredents);
+
+    setIngredents(cleanIngredents);
+  };
+
+  const handleDeleteIngredent = (id) => {
+    const indexSelected = selectedIngredent.findIndex((s) => s.value == id);
+    const indexIngredents = ingredents.findIndex((i) => i.id == id);
+    console.log(indexSelected);
+    console.log(indexIngredents);
+    selectedIngredent.splice(indexSelected, 1);
+    ingredents.splice(indexIngredents, 1);
+    setSelectedIngredent(selectedIngredent);
     setIngredents([...ingredents]);
   };
   return (
@@ -79,25 +115,36 @@ export const ProductForm = ({
       </div>
       <div>
         <p className="form-label">Ingredientes</p>
-        <button
-          type="button"
-          onClick={handleAddCount}
-          className="btn btn-sm btn-success mb-3"
-        >
-          Agregar
-        </button>
-        {ingredents.map((i, index) => (
-          <CreateIngredent
-            key={index}
-            handleChange={handleChange}
-            handleAddCount={handleAddCount}
-            required={ingredents[index].required}
-            ingredents={ingredents}
-            setIngredents={setIngredents}
-            index={index}
-            item={i}
-          />
-        ))}
+        {ingredentsData && (
+          <>
+            <MultiSelect
+              required
+              options={ingredentsData.map((i) => {
+                return { value: i.id, label: i.name };
+              })}
+              value={selectedIngredent}
+              onChange={(item) => {
+                console.log(item);
+                setSelectedIngredent(item);
+                handleAddIngredent(item);
+              }}
+              labelledBy="Ingredientes"
+              className="multiselect"
+            />
+            {ingredents.map((i) => {
+              return (
+                <CreateIngredent
+                  key={i.id}
+                  required={i.required}
+                  name={i.name}
+                  id={i.id}
+                  handleDeleteIngredent={handleDeleteIngredent}
+                  handleChange={handleChange}
+                />
+              );
+            })}
+          </>
+        )}
       </div>
       <div className="col-12">
         <label htmlFor="categorias" className="form-label">
@@ -107,7 +154,7 @@ export const ProductForm = ({
           <MultiSelect
             required
             options={categories.map((c) => {
-              return { value: c._id, label: c.name };
+              return { value: c.id, label: c.name };
             })}
             value={selected}
             onChange={setSelected}
@@ -130,7 +177,7 @@ export const ProductForm = ({
           id="productImage"
           type="file"
           accept=".jpg,.jpge,.png"
-          required
+          // required
           onChange={handleFileUpload}
         />
       </div>
