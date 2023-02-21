@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Headers, ContainerAdmin, ContainerFluid, Row } from "../common";
-import { getUsers, cleanUser } from "../services/users";
+import { getUsers } from "../services/users";
 import Table from "../components/tables/table";
 
 const roles = () => {

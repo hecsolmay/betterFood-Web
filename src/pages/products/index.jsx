@@ -4,15 +4,17 @@ import {
   ContainerAdmin,
   ContainerFluid,
   Headers,
-} from "../common";
-import Modal from "../components/modal";
-import { TableHeaders, TableItems } from "../components/products";
-import { ProductForm } from "../components/products/forms";
-import UpdateForm from "../components/products/updateForm";
-import Table from "../components/tables/table";
-import { postFile } from "../services";
-import { getCategories } from "../services/categories";
-import * as services from "../services/products";
+} from "../../common";
+import Modal from "../../components/modal";
+import { TableHeaders, TableItems } from "../../components/products";
+import { ProductForm } from "../../components/products/forms";
+import UpdateForm from "../../components/products/updateForm";
+import Table from "../../components/tables/table";
+import { postFile } from "../../services";
+import { getCategoriesDTO } from "../../services/categories";
+import { getIngredents } from "../../services/ingredents";
+import * as services from "../../services/products";
+import "./index.css";
 
 const products = () => {
   const [products, setProducts] = useState([]);
@@ -21,39 +23,46 @@ const products = () => {
   const [info, setInfo] = useState({});
   const [image, setImage] = useState("");
   const [id, setId] = useState("");
+  const [ingredentsData, setIngredentsData] = useState([]);
   const [ingredents, setIngredents] = useState([]);
   const [selected, setSelected] = useState([]);
+  const [selectedIngredent, setSelectedIngredent] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [uploading, setUploading] = useState(false);
 
   const handleEdit = (product) => {
+    const avalibleCategories = categories.map((c) => c.id);
+    categories;
     console.log(product);
     $("#ModalUpdate").modal("show");
     const {
-      _id,
+      id,
       name,
       price,
       description,
-      ingredents,
-      categories,
+      ingredents: productIngre,
+      categories: productCate,
       imgURL,
       ofert,
     } = product;
     setForm({ name, price, description, ofert });
     setImage(imgURL);
     setSelected(
-      categories.map((c) => {
-        return { value: c._id, label: c.name };
+      productCate.map((c) => {
+        if (avalibleCategories.includes(c.id)) {
+          return { value: c.id, label: c.name };
+        }
+        return;
       })
     );
-    setId(_id);
-    setIngredents(
-      ingredents.map((i) => {
-        delete i._id;
-        return i;
+    setId(id);
+    setSelectedIngredent(
+      productIngre.map((i) => {
+        return { value: i.id, label: i.name };
       })
     );
+    setIngredents(productIngre);
   };
 
   const handleIngredentsChange = (ingredent) => {
@@ -66,7 +75,6 @@ const products = () => {
     console.log({ id });
     console.log({ name });
     const body = active === 1 ? { active: 0 } : { active: 1 };
-    // await services.deleteProduct(id);
     await services.updateProduct({ id, newProduct: body });
     const estado = active === 1 ? "inactivo" : "activo";
     alert(`Cambiado a estado ${estado} ${name}`);
@@ -102,11 +110,17 @@ const products = () => {
   const handleSubmit = async (ev, action = 0) => {
     ev.preventDefault();
     console.log("entro al submit");
+    let cleanIngredents = ingredents.map((i) => {
+      delete i.name;
+      return {
+        ...i,
+      };
+    });
     const categories = selected.map((s) => s.value);
     const body = {
       ...form,
       categories,
-      ingredents,
+      ingredents: cleanIngredents,
     };
 
     console.log(body);
@@ -130,18 +144,24 @@ const products = () => {
     setSelected([]);
   };
 
+  const getCategories = async () => {
+    const dataCategories = await getCategoriesDTO("?limit=100");
+    setCategories(dataCategories.results);
+  };
+
+  const getIngredentsDTO = async () => {
+    const dataIngredents = await getIngredents("?limit=100&active=1");
+    setIngredentsData(dataIngredents.results);
+  };
+
   const getData = async () => {
     setLoading(true);
     setError(null);
     try {
-      const [dataProducts, dataCategories] = await Promise.all([
-        services.getProducts(),
-        getCategories("?limit=100"),
-      ]);
+      const dataProducts = await services.getProducts();
+      console.log(dataProducts.results);
       setProducts(dataProducts.results);
       setInfo(dataProducts.info);
-      console.log(dataProducts.results);
-      setCategories(dataCategories.results);
     } catch (error) {
       console.error(error);
       setError(error);
@@ -152,6 +172,8 @@ const products = () => {
 
   useEffect(() => {
     getData();
+    getCategories();
+    getIngredentsDTO();
   }, []);
 
   return (
@@ -166,63 +188,13 @@ const products = () => {
           </button>
         </div>
 
-        {loading && (
+        {loading ? (
           <div className="text-center ">
             <img src="img/loading.gif" className="big-image mt-20" />
           </div>
-        )}
-
-        {!loading && !error && (
+        ) : (
           <>
-            <Modal
-              title="Crear Producto"
-              action="Crear"
-              btnClass={
-                loading ? "btn btn-primary disabled" : "btn btn-primary"
-              }
-            >
-              <ProductForm
-                categories={categories}
-                handleFormChange={handleFormChange}
-                setSelected={setSelected}
-                selected={selected}
-                handleFileUpload={handleFileUpload}
-                handleIngredentsChange={handleIngredentsChange}
-                setIngredents={setIngredents}
-                ingredents={ingredents}
-                handleSubmit={handleSubmit}
-                image={image}
-                uploading={uploading}
-              />
-            </Modal>
-
-            <Modal
-              title="Actualizar Product"
-              action="Actualizar"
-              id="ModalUpdate"
-              btnClass={
-                loading ? "btn btn-primary disabled" : "btn btn-warning"
-              }
-              formId="formUpdate"
-              resetForm={resetData}
-            >
-              <UpdateForm
-                id="formUpdate"
-                categories={categories}
-                handleFormChange={handleFormChange}
-                setSelected={setSelected}
-                selected={selected}
-                handleFileUpload={handleFileUpload}
-                handleIngredentsChange={handleIngredentsChange}
-                setIngredents={setIngredents}
-                ingredents={ingredents}
-                handleSubmit={handleSubmit}
-                image={image}
-                uploading={uploading}
-                formData={form}
-              />
-            </Modal>
-            {products && (
+            {products && !error && (
               <Table info={info}>
                 <TableHeaders />
                 {products.length != 0 && (
@@ -237,6 +209,56 @@ const products = () => {
           </>
         )}
       </ContainerFluid>
+
+      <Modal
+        title="Crear Producto"
+        action="Crear"
+        btnClass={loading ? "btn btn-primary disabled" : "btn btn-primary"}
+      >
+        <ProductForm
+          categories={categories}
+          handleFormChange={handleFormChange}
+          setSelected={setSelected}
+          selected={selected}
+          handleFileUpload={handleFileUpload}
+          setIngredentsData={setIngredentsData}
+          ingredentsData={ingredentsData}
+          ingredents={ingredents}
+          setIngredents={setIngredents}
+          handleSubmit={handleSubmit}
+          selectedIngredent={selectedIngredent}
+          setSelectedIngredent={setSelectedIngredent}
+          image={image}
+          uploading={uploading}
+        />
+      </Modal>
+
+      <Modal
+        title="Actualizar Product"
+        action="Actualizar"
+        id="ModalUpdate"
+        btnClass={loading ? "btn btn-primary disabled" : "btn btn-warning"}
+        formId="formUpdate"
+        resetForm={resetData}
+      >
+        <UpdateForm
+          id="formUpdate"
+          categories={categories}
+          handleFormChange={handleFormChange}
+          setSelected={setSelected}
+          selected={selected}
+          handleFileUpload={handleFileUpload}
+          setIngredents={setIngredents}
+          ingredents={ingredents}
+          handleSubmit={handleSubmit}
+          image={image}
+          uploading={uploading}
+          formData={form}
+          ingredentsData={ingredentsData}
+          selectedIngredent={selectedIngredent}
+          setSelectedIngredent={setSelectedIngredent}
+        />
+      </Modal>
     </ContainerAdmin>
   );
 };

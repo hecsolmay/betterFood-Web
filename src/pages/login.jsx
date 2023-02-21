@@ -24,6 +24,7 @@ const login = () => {
       }
 
       const { data } = res;
+      console.log(data);
       setItems(data);
 
       navigate("/dashboard");

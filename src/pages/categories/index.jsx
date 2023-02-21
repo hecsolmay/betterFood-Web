@@ -4,19 +4,18 @@ import {
   ContainerAdmin,
   ContainerFluid,
   Headers,
-} from "../common";
-import { TableHeaders, TableItems } from "../components/categories";
-import CategoryForm from "../components/categories/form";
-import CategoryFormUpdate from "../components/categories/updateForm";
-import Modal from "../components/modal";
-import Table from "../components/tables/table";
-import { postFile } from "../services/";
+} from "../../common";
+import { TableHeaders, TableItems } from "../../components/categories";
+import CategoryForm from "../../components/categories/form";
+import CategoryFormUpdate from "../../components/categories/updateForm";
+import Modal from "../../components/modal";
+import Table from "../../components/tables/table";
+import { postFile } from "../../services";
 import {
   createCategory,
-  deleteCategory,
   getCategories,
   updateCategory,
-} from "../services/categories";
+} from "../../services/categories";
 
 const categories = () => {
   const [categories, setCategories] = useState([]);
@@ -100,7 +99,7 @@ const categories = () => {
     $("#ModalUpdate").modal("show");
     setImage(category.imgURL);
     setForm({ ...form, name: category.name });
-    setId(category._id);
+    setId(category.id);
   };
 
   const handleDelete = async ({ id, name, active, category }) => {
@@ -147,53 +146,13 @@ const categories = () => {
           </button>
         </div>
 
-        {loading && (
+        {loading ? (
           <div className="text-center ">
             <img src="img/loading.gif" className="big-image mt-20" />
           </div>
-        )}
-
-        {!loading && !error && (
+        ) : (
           <>
-            <Modal
-              id="Modal"
-              title="Crear Categoria"
-              action="Crear"
-              btnClass={
-                loading ? "btn btn-primary disabled" : "btn btn-primary"
-              }
-            >
-              <CategoryForm
-                categoryImg={image}
-                uploading={uploading}
-                handleSubmit={handleSubmit}
-                handleFileUpload={handleFileUpload}
-                handleFormChange={handleFormChange}
-              />
-            </Modal>
-
-            <Modal
-              id="ModalUpdate"
-              title="Actualizar Categoria"
-              action="Actualizar"
-              resetForm={resetForm}
-              btnClass={
-                loading ? "btn btn-warning disabled" : "btn btn-warning"
-              }
-              formId="formUpdate"
-            >
-              <CategoryFormUpdate
-                id="formUpdate"
-                uploading={uploading}
-                handleSubmit={handleUpdate}
-                handleFileUpload={handleFileUpload}
-                handleFormChange={handleFormChange}
-                categoryImg={image}
-                name={form.name}
-              />
-            </Modal>
-
-            {categories && (
+            {!error && (
               <Table title="Tabla de Categorias" info={info}>
                 <TableHeaders />
                 {categories.length !== 0 && (
@@ -208,6 +167,39 @@ const categories = () => {
           </>
         )}
       </ContainerFluid>
+      <Modal
+        id="Modal"
+        title="Crear Categoria"
+        action="Crear"
+        btnClass={loading ? "btn btn-primary disabled" : "btn btn-primary"}
+      >
+        <CategoryForm
+          categoryImg={image}
+          uploading={uploading}
+          handleSubmit={handleSubmit}
+          handleFileUpload={handleFileUpload}
+          handleFormChange={handleFormChange}
+        />
+      </Modal>
+
+      <Modal
+        id="ModalUpdate"
+        title="Actualizar Categoria"
+        action="Actualizar"
+        resetForm={resetForm}
+        btnClass={loading ? "btn btn-warning disabled" : "btn btn-warning"}
+        formId="formUpdate"
+      >
+        <CategoryFormUpdate
+          id="formUpdate"
+          uploading={uploading}
+          handleSubmit={handleUpdate}
+          handleFileUpload={handleFileUpload}
+          handleFormChange={handleFormChange}
+          categoryImg={image}
+          name={form.name}
+        />
+      </Modal>
     </ContainerAdmin>
   );
 };

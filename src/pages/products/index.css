@@ -1,0 +1,11 @@
+.multiselect {
+  z-index: 1;
+}
+
+.back-multiselect {
+  z-index: 0;
+}
+
+.form-check-input {
+  border: 1px solid rgba(61, 60, 60, 0.432);
+}
