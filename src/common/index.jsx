@@ -59,13 +59,13 @@ export const Pagination = ({ info }) => {
   const {
     prev = false,
     next = false,
-    total = 1,
-    count = 0,
-    current = 0,
+    totalPages = 1,
+    items = 0,
+    currentPage = 0,
     select = 10,
   } = info;
   let showing = 10;
-  if (count < 10) showing = count;
+  if (items < 10) showing = items;
   return (
     <Row>
       <div className="col-sm-12 col-md-5">
@@ -75,7 +75,7 @@ export const Pagination = ({ info }) => {
           role="status"
           aria-live="polite"
         >
-          Mostrando {count < select ? count : select} de {count}
+          Mostrando {items < select ? items : select} de {items}
         </div>
       </div>
       <div className="col-sm-12 col-md-7">
