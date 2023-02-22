@@ -4,8 +4,10 @@ import { API_URL } from "../../config";
 
 const productURL = `${API_URL}/product/`;
 
-export const getProducts = async () => {
-  const res = await axios.get(productURL);
+export const getProducts = async (params) => {
+  const res = params
+    ? await axios.get(`${productURL}${params}`)
+    : await axios.get(productURL);
   const { data } = res;
   return data;
 };

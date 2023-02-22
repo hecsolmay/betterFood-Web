@@ -6,6 +6,7 @@ import {
   Row,
   Loader,
 } from "../../common";
+import { useSearchParams } from "react-router-dom";
 import Col from "../../components/col-xl-3";
 import Table from "../../components/tables/table";
 import FormIngredent from "../../components/ingredents/form";
@@ -18,6 +19,7 @@ const IngredentsPage = () => {
   const [loading, setLoading] = useState(false);
   const [info, setInfo] = useState({});
   const [task, setTask] = useState(1); // Task 1 == Create / Tast 2 == Update
+  const [params] = useSearchParams()
 
   const handleSubmit = async (ev) => {
     ev.preventDefault();
@@ -52,7 +54,7 @@ const IngredentsPage = () => {
     setLoading(true);
     setError(null);
     try {
-      const data = await services.getIngredents();
+      const data = await services.getIngredents(`?${params.toString()}`);
       console.log(data);
       setIngredents(data.results);
       setInfo(data.info);
@@ -85,7 +87,7 @@ const IngredentsPage = () => {
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [params]);
 
   return (
     <ContainerAdmin>

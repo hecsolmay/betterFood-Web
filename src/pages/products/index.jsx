@@ -6,6 +6,7 @@ import {
   Headers,
 } from "../../common";
 import Modal from "../../components/modal";
+import { useSearchParams } from "react-router-dom";
 import { TableHeaders, TableItems } from "../../components/products";
 import { ProductForm } from "../../components/products/forms";
 import UpdateForm from "../../components/products/updateForm";
@@ -29,6 +30,7 @@ const products = () => {
   const [selectedIngredent, setSelectedIngredent] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [params] = useSearchParams();
   const [uploading, setUploading] = useState(false);
 
   const handleEdit = (product) => {
@@ -158,7 +160,7 @@ const products = () => {
     setLoading(true);
     setError(null);
     try {
-      const dataProducts = await services.getProducts();
+      const dataProducts = await services.getProducts(`?${params.toString()}`);
       console.log(dataProducts.results);
       setProducts(dataProducts.results);
       setInfo(dataProducts.info);
@@ -171,10 +173,13 @@ const products = () => {
   };
 
   useEffect(() => {
-    getData();
     getCategories();
     getIngredentsDTO();
   }, []);
+
+  useEffect(() => {
+    getData();
+  }, [params]);
 
   return (
     <ContainerAdmin>
