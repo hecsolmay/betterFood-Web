@@ -11,8 +11,8 @@ import { ProductForm } from "../../components/products/forms";
 import UpdateForm from "../../components/products/updateForm";
 import Table from "../../components/tables/table";
 import { postFile } from "../../services";
-import { getCategoriesDTO } from "../../services/categories";
-import { getIngredents } from "../../services/ingredents";
+import { getAllCategories } from "../../services/categories";
+import { getAllIngredents } from "../../services/ingredents";
 import * as services from "../../services/products";
 import "./index.css";
 
@@ -145,12 +145,12 @@ const products = () => {
   };
 
   const getCategories = async () => {
-    const dataCategories = await getCategoriesDTO("?limit=100");
+    const dataCategories = await getAllCategories("?limit=100");
     setCategories(dataCategories.results);
   };
 
   const getIngredentsDTO = async () => {
-    const dataIngredents = await getIngredents("?limit=100&active=1");
+    const dataIngredents = await getAllIngredents();
     setIngredentsData(dataIngredents.results);
   };
 

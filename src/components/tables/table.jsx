@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import SelectItems from "./selectItems";
 import { Pagination, Row } from "../../common";
+import {  useSearchParams } from "react-router-dom";
 import Button from "./buttons";
 
-const defaultHandle = () => alert("Button Pressed");
-
 const table = ({ children, info = {}, title = "" }) => {
-  const [selectedValue, setSelectedValue] = useState(10);
+
+  const [params] =  useSearchParams()
+
 
   return (
     <div className="card shadow mb-4">
@@ -20,10 +21,9 @@ const table = ({ children, info = {}, title = "" }) => {
             id="dataTable_wrapper"
           >
             <SelectItems
-              setSelectedValue={setSelectedValue}
-              selectedValue={selectedValue}
+            limit={info.limit}
             />
-
+            
             <div className="row">
               <div className="col-sm-12">
                 <table
@@ -37,7 +37,7 @@ const table = ({ children, info = {}, title = "" }) => {
               </div>
             </div>
 
-            <Pagination select={selectedValue} info={info ? info : null} />
+            <Pagination info={info ? info : null} />
           </div>
         </div>
       </div>

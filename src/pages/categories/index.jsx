@@ -5,17 +5,15 @@ import {
   ContainerFluid,
   Headers,
 } from "../../common";
+import { useSearchParams } from "react-router-dom";
 import { TableHeaders, TableItems } from "../../components/categories";
 import CategoryForm from "../../components/categories/form";
 import CategoryFormUpdate from "../../components/categories/updateForm";
 import Modal from "../../components/modal";
 import Table from "../../components/tables/table";
 import { postFile } from "../../services";
-import {
-  createCategory,
-  getCategories,
-  updateCategory,
-} from "../../services/categories";
+
+import * as services from "../../services/categories";
 
 const categories = () => {
   const [categories, setCategories] = useState([]);
@@ -26,6 +24,8 @@ const categories = () => {
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState(null);
+  const [params] = useSearchParams();
+  
 
   const handleCategoriesChange = (categories) => {
     setCategories(categories);
@@ -63,7 +63,7 @@ const categories = () => {
     if (loading) return alert("Todavia Estan cargando los datos");
 
     console.log(form);
-    await createCategory(form);
+    await services.createCategory(form);
     alert("Creado Con exito");
     $("#Modal").modal("hide");
     $("#name").val("");
@@ -89,7 +89,7 @@ const categories = () => {
     console.log("Formulario");
     console.log(form);
     console.log(id);
-    await updateCategory({ id, newCategory: form });
+    await services.updateCategory({ id, newCategory: form });
     alert("Actualizado");
     resetForm();
     getData();
@@ -110,7 +110,7 @@ const categories = () => {
     console.log(body);
     const status = active === 1 ? "inactivo" : "activo";
     // await deleteCategory(id);
-    await updateCategory({ id, newCategory: body });
+    await services.updateCategory({ id, newCategory: body });
     alert(`Cambiado a estado ${status} ${name}`);
     getData();
   };
@@ -119,7 +119,7 @@ const categories = () => {
     setLoading(true);
     setError(null);
     try {
-      const data = await getCategories();
+      const data = await services.getCategories(`?${params.toString()}`);
       console.log(data);
       setCategories(data.results);
       setInfo(data.info);
@@ -132,7 +132,7 @@ const categories = () => {
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [params]);
 
   return (
     <ContainerAdmin>

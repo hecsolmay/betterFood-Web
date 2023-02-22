@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import Sidebar from "../components/sidebar/sidebar";
 import Topbar from "../components/topbar/topbar";
 
@@ -60,12 +61,25 @@ export const Pagination = ({ info }) => {
     prev = false,
     next = false,
     totalPages = 1,
+    limit = 0,
     items = 0,
     currentPage = 0,
-    select = 10,
   } = info;
-  let showing = 10;
-  if (items < 10) showing = items;
+
+  const [params, setParams] = useSearchParams();
+
+  console.log("parametros");
+  console.log(params.toString());
+
+  const handleNext = () => {
+    params.set("page", currentPage + 1);
+    setParams(params);
+  };
+
+  const handlePrevius = () => {
+    params.set("page", currentPage - 1);
+    setParams(params);
+  };
   return (
     <Row>
       <div className="col-sm-12 col-md-5">
@@ -75,7 +89,7 @@ export const Pagination = ({ info }) => {
           role="status"
           aria-live="polite"
         >
-          Mostrando {items < select ? items : select} de {items}
+          Mostrando {limit > items ? items : limit} de {items}
         </div>
       </div>
       <div className="col-sm-12 col-md-7">
@@ -83,7 +97,11 @@ export const Pagination = ({ info }) => {
           <ul className="pagination">
             {prev && (
               <li className="paginate_button page-item previous">
-                <button tabIndex={0} className="page-link">
+                <button
+                  tabIndex={0}
+                  className="page-link"
+                  onClick={handlePrevius}
+                >
                   Previous
                 </button>
               </li>
@@ -102,7 +120,7 @@ export const Pagination = ({ info }) => {
             </li> */}
             {next && (
               <li className="paginate_button page-item next">
-                <button tabIndex={0} className="page-link">
+                <button tabIndex={0} className="page-link" onClick={handleNext}>
                   Next
                 </button>
               </li>

@@ -51,7 +51,7 @@ export const TableItems = ({
                 handleDelete({ id: p.id, name: p.name, active: p.active })
               }
             >
-              <i class="fa fa-arrows-rotate"></i>
+              <i className="fa fa-arrows-rotate"></i>
             </button>
           )}
         </td>

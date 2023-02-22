@@ -30,18 +30,24 @@ const WaitersPage = () => {
 
     if (task === 2) {
       console.log("editando entidad");
+      const waiterChage = {
+        name: form.name,
+        lastName: form.lastName,
+        birthdate: form.birthdate,
+      };
       await services.updateWaiter({
         id: form.id,
-        newWaiter: ingredentChange,
+        newWaiter: waiterChage,
       });
       alert("Actualizado con exito");
       setTask(1);
-      setForm({ name: "" });
+      resetTask()
     }
     getData();
   };
 
   const handleChange = (ev) => {
+    console.log(ev.target.value);
     setForm({ ...form, [ev.target.name]: ev.target.value });
   };
 
@@ -62,13 +68,15 @@ const WaitersPage = () => {
 
   const resetTask = () => {
     setTask(1);
+    setForm({});
+    setForm({ name: "", lastName: "", birthdate: "" });
   };
   const handleDelete = async ({ id, name, active }) => {
     let status = active === 1 ? 0 : 1;
     const body = {
       active: status,
     };
-    await services.updateWaiter({ id, newIngredent: body });
+    await services.updateWaiter({ id, newWaiter: body });
     alert(`Cambiado el estado de ${name}`);
     getData();
   };
@@ -76,8 +84,15 @@ const WaitersPage = () => {
   const handleEdit = async (w) => {
     console.log(w);
     setTask(2);
-    setForm({ id: w.id, name: w.name });
-    // await services.updateIngredent({id: i.id})
+    let birthdate = new Date(w.birthdate).toLocaleDateString().split("/");
+    console.log(birthdate);
+    birthdate[1] =
+      birthdate[1].length === 2 ? birthdate[1] : `0${birthdate[1]}`;
+    birthdate[0] =
+      birthdate[0].length === 2 ? birthdate[0] : `0${birthdate[1]}`;
+    birthdate = birthdate.reverse().join("-");
+    console.log(birthdate);
+    setForm({ id: w.id, name: w.name, lastName: w.lastName, birthdate });
   };
 
   useEffect(() => {
@@ -94,6 +109,8 @@ const WaitersPage = () => {
               handleChange={handleChange}
               handleSubmit={handleSubmit}
               name={form.name}
+              lastName={form.lastName}
+              birthdate={form.birthdate}
               task={task}
               resetTask={resetTask}
             />
@@ -127,14 +144,14 @@ const WaitersPage = () => {
                           <td>{w.id}</td>
                           <td>{w.name}</td>
                           <td>{w.lastName}</td>
-                          <td>{w.birthdate}</td>
+                          <td>{new Date(w.birthdate).toLocaleDateString()}</td>
                           <td>{w.active === 1 ? "Si" : "No"}</td>
                           <td>
                             {w.active === 1 ? (
                               <>
                                 <button
-                                  className="btn btn-sm btn-warning btn-addon ms-3"
-                                  onClick={() => handleEdit(i)}
+                                  className="btn btn-sm btn-warning btn-addon mb-2 ms-3"
+                                  onClick={() => handleEdit(w)}
                                 >
                                   <i className="fa fa-pen-to-square" />
                                 </button>

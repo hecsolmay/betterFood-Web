@@ -10,7 +10,7 @@ const ProfilePicture = ({picture}) => {
           {/* <!-- Profile picture image--> */}
           <img
             className="img-account-profile rounded-circle mb-2"
-            src={picture ? picture : "img/undraw_profile.svg"}
+            src={picture ? picture : "img/profile.jpg"}
             alt=""
           />
           {/* <!-- Profile picture help block--> */}

@@ -52,7 +52,7 @@ export const getWaiters = async (params) => {
       const config = {
         headers: { Authorization: `Bearer ${getTokenItem()}` },
       };
-      const res = await axios.put(`${waitersURL}${id}`, newIngredent, config);
+      const res = await axios.put(`${waitersURL}${id}`, newWaiter, config);
       console.log(res);
       return;
     } catch (error) {

@@ -1,14 +1,14 @@
 import React from "react";
 import Dropdown from "./dropdown";
 import "./topbar.css";
-import {getUser} from "../../utils/localStorage"
+import { getUser } from "../../utils/localStorage";
 
 const topbar = ({ showSideBar, setShowSideBar }) => {
   const handleSideBar = () => {
     setShowSideBar(!showSideBar);
   };
 
-  const user = getUser()
+  const user = getUser();
 
   return (
     <>
@@ -44,7 +44,7 @@ const topbar = ({ showSideBar, setShowSideBar }) => {
               </span>
               <img
                 className="img-profile rounded-circle"
-                src={user.picture ? user.picture : "img/undraw_profile.svg"}
+                src={user.picture ? user.picture : "img/profile.jpg"}
               />
             </a>
             {/* <!-- Dropdown - User Information --> */}

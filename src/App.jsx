@@ -7,23 +7,23 @@ import ForgotPassword from "./pages/forgotPassword";
 import Ingredents from "./pages/ingredents";
 import Login from "./pages/login";
 import Notfound from "./pages/notFound";
+import Orders from "./pages/orders";
 import Produts from "./pages/products";
 import Profile from "./pages/profile";
 import Signup from "./pages/register";
 import Reports from "./pages/reports";
-import Roles from "./pages/roles";
 import Sales from "./pages/sales";
 import ShoppingList from "./pages/shoppingList";
+import Tables from "./pages/tables";
+import Roles from "./pages/users/";
 import Waiters from "./pages/waiters";
 import MainRoute from "./utils/mainRoute";
 import ProtectedRoutes from "./utils/protectedRoutes";
-
 
 const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-
         <Route path="/" element={<MainRoute />} />
 
         {/* ADMIN ROUTES */}
@@ -33,6 +33,8 @@ const App = () => {
           <Route path="/categories" element={<Categories />} />
           <Route path="/ingredents" element={<Ingredents />} />
           <Route path="/waiters" element={<Waiters />} />
+          <Route path="/tables" element={<Tables />} />
+          <Route path="/orders" element={<Orders />} />
           <Route path="/reports" element={<Reports />} />
           <Route path="sales" element={<Sales />} />
           <Route path="sales/:id" element={<ShoppingList />} />

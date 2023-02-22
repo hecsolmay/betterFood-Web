@@ -1,5 +1,3 @@
-import { converDate } from "../../utils";
-
 export const TableHeaders = () => (
   <thead>
     <tr>
@@ -67,7 +65,7 @@ export const TableItems = ({
                     })
                   }
                 >
-                  <i class="fa fa-arrows-rotate"></i>
+                  <i className="fa fa-arrows-rotate"></i>
                 </button>
               )}
             </td>

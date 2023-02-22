@@ -1,7 +1,7 @@
 import React from "react";
 import { Row } from "../../common";
 
-const FormWaiters = ({ handleChange, handleSubmit, name,lastName, task = 1, resetTask }) => {
+const FormWaiters = ({ handleChange, handleSubmit, name,lastName,birthdate, task = 1, resetTask }) => {
   return (
     <form className="row g-3" id="form" onSubmit={handleSubmit}>
       <div className="col-md-12">
@@ -17,7 +17,7 @@ const FormWaiters = ({ handleChange, handleSubmit, name,lastName, task = 1, rese
           onChange={handleChange}
           value={name}
         />
-        <label htmlFor="name" className="form-label">
+        <label htmlFor="name" className="form-label mt-2">
           Apellido
         </label>
         <input
@@ -29,19 +29,17 @@ const FormWaiters = ({ handleChange, handleSubmit, name,lastName, task = 1, rese
           onChange={handleChange}
           value={lastName}
         />
-        <label htmlFor="name" className="form-label">
-          Cumpleaños
+        <label htmlFor="name" className="form-label mt-2">
+          {"Fecha de nacimiento"}
         </label>
         <input
           type="date"
           className="form-control"
           // id="name"
-          onChange={(ev) => {
-            const object = {[ev.target.name] : ev.target.value}
-            console.log(object);
-          }}
+          onChange={handleChange}
           name="birthdate"
-          // required
+          value={birthdate}
+          required
           // onChange={handleChange}
           // value={name}
         />

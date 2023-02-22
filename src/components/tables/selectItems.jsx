@@ -1,10 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
-const selectItems = ({ selectedValue, setSelectedValue }) => {
+const selectItems = ({ limit = 10 }) => {
+  const [params, setParams] = useSearchParams();
   const handleChange = (e) => {
-    setSelectedValue(e.target.value);
+    e.preventDefault();
+    params.set("limit", e.target.value);
+    setParams(params);
   };
 
+  const handleSearch = (ev) => {
+    console.log(ev);
+    params.set("q", ev.target.value);
+    setParams(params);
+  };
+
+  const handleSearchEnter = (ev) => {
+    if (ev.keyCode === 13) {
+      ev.preventDefault();
+      console.log("Enter Pressed");
+      console.log(ev.target.value);
+      params.set("q", ev.target.value);
+      setParams(params);
+    }
+  };
+
+  const cleanSearch= () => {
+    params.delete("q")
+    setParams(params)
+  }
   return (
     <div className="row">
       <div className="col-sm-12 col-md-6">
@@ -15,8 +39,8 @@ const selectItems = ({ selectedValue, setSelectedValue }) => {
               name="dataTable_length"
               aria-controls="dataTable"
               className="custom-select custom-select-sm form-control form-control-sm"
-              defaultValue={selectedValue}
               onChange={handleChange}
+              value={limit}
             >
               <option value={10}>10</option>
               <option value={25}>25</option>
@@ -36,8 +60,26 @@ const selectItems = ({ selectedValue, setSelectedValue }) => {
               className="form-control form-control-sm"
               placeholder=""
               aria-controls="dataTable"
+              onKeyUp={handleSearchEnter}
             />
           </label>
+          <button
+            type="button"
+            className="btn-sm btn-primary ms-2"
+            onClick={handleSearch}
+          >
+            Buscar
+          </button>
+          {params.get("q") && (
+            <div className="row mt-3 mb-3">
+              <div className="col-sm-3">
+                <p>{`Buscado: ${params.get("q")}`}</p>
+              </div>
+              <div className="col-sm-3">
+                <button className="btn-sm btn-danger" onClick={cleanSearch}>Limpiar</button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

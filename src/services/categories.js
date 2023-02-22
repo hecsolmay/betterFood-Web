@@ -3,7 +3,6 @@ import { API_URL } from "../../config";
 import { getTokenItem } from "../utils/localStorage";
 
 const categoriesURL = `${API_URL}/category/`;
-const categoriesURLDTO = `${API_URL}/m/category`
 
 export const getCategories = async (params) => {
   const res = params
@@ -13,10 +12,8 @@ export const getCategories = async (params) => {
   return data;
 };
 
-export const getCategoriesDTO = async (params) => {
-  const res = params
-    ? await axios.get(`${categoriesURLDTO}${params}`)
-    : await axios.get(categoriesURLDTO);
+export const getAllCategories = async () => {
+  const res = await axios.get(`${categoriesURL}all`);
   const { data } = res;
   return data;
 };

@@ -12,6 +12,12 @@ export const getIngredents = async (params) => {
   return data;
 };
 
+export const getAllIngredents = async () => {
+  const res = await axios.get(`${ingredentsURL}all`);
+  const { data } = res;
+  return data;
+};
+
 export const createIngredent = async (body) => {
   try {
     const config = {
