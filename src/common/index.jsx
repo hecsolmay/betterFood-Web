@@ -82,17 +82,18 @@ export const Pagination = ({ info }) => {
   };
   return (
     <Row>
-      <div className="col-sm-12 col-md-5">
+      <div className="col-sm-12 col-md-4">
         <div
-          className="dataTables_info"
+          className="dataTables_info ms-3"
           id="dataTable_info"
           role="status"
           aria-live="polite"
         >
-          Mostrando {limit > items ? items : limit} de {items}
+          {limit * currentPage - limit} -
+          {limit * currentPage > items ? items : limit * currentPage}
         </div>
       </div>
-      <div className="col-sm-12 col-md-7">
+      <div className="col-sm-12 col-md-8">
         <div className="dataTables_paginate paging_simple_numbers">
           <ul className="pagination">
             {prev && (
@@ -102,26 +103,16 @@ export const Pagination = ({ info }) => {
                   className="page-link"
                   onClick={handlePrevius}
                 >
-                  Previous
+                  <i class="fa-solid fa-arrow-left"></i>
                 </button>
               </li>
             )}
 
-            {/* {createPageNumber({ total: total, current: current })} */}
-            {/* <li className="paginate_button page-item active">
-              <button tabIndex={0} className="page-link">
-                1
-              </button>
-            </li>
-            <li className="paginate_button page-item ">
-              <button tabIndex={0} className="page-link">
-                2
-              </button>
-            </li> */}
+            <CreatePageNumber current={currentPage} total={totalPages} />
             {next && (
               <li className="paginate_button page-item next">
                 <button tabIndex={0} className="page-link" onClick={handleNext}>
-                  Next
+                  <i class="fa-solid fa-arrow-right"></i>
                 </button>
               </li>
             )}
@@ -132,38 +123,62 @@ export const Pagination = ({ info }) => {
   );
 };
 
-const PageNumber = ({ number, key, active = false }) => (
+const PageNumber = ({ number = 1, active = false, handleClick }) => (
   <li
     className={
       active ? "paginate_button page-item active" : "paginate_button page-item "
     }
-    key={key}
   >
-    <button tabIndex={0} className="page-link">
+    <button
+      tabIndex={0}
+      className={active ? "page-link disabled" : "page-link"}
+      onClick={handleClick}
+    >
       {number}
     </button>
   </li>
 );
 
-const createPageNumber = ({ total, current }) => {
+const CreatePageNumber = ({ total = 1, current = 1 }) => {
   const numbers = [];
-  if (total < 6) {
-    for (let i = 1; i <= total; i++) {
-      if (i === current) {
-        numbers.push({ number: i, key: i, active: true });
-        return;
-      }
+  const [params, setParams] = useSearchParams();
 
-      numbers.push({ number: i, key: i, active: false });
+  const handleClick = (page = 1) => {
+    params.set("page", page);
+    setParams(params);
+  };
+
+  if (current > 3) {
+    if (current + 2 <= total) {
+      for (let i = current - 2; i <= current + 2; i++) {
+        numbers.push({ number: i, active: i === current });
+      }
+    } else if (current + 1 == total) {
+      for (let i = current - 3; i <= total; i++) {
+        numbers.push({ number: i, active: i === current });
+      }
+    } else {
+      for (let i = current - 4; i <= total; i++) {
+        numbers.push({ number: i, active: i === current });
+      }
+    }
+  } else {
+    for (let i = 1; i <= total && i < 6; i++) {
+      numbers.push({ number: i, active: i === current });
     }
   }
+
   console.log(numbers);
   return (
     <>
-      {numbers.map((n) => {
-        console.log(n);
-        return PageNumber({ key: n.key, number: n.number, active: n.active });
-      })}
+      {numbers.map((n) => (
+        <PageNumber
+          active={n.active}
+          number={n.number}
+          key={n.number}
+          handleClick={() => handleClick(n.number)}
+        />
+      ))}
     </>
   );
 };
