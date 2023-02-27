@@ -6,7 +6,7 @@ const ingredentsURL = `${API_URL}/ingredent/`;
 
 export const getIngredents = async (params) => {
   const res = params
-    ? await axios.get(`${ingredentsURL}${params}`)
+    ? await axios.get(`${ingredentsURL}?${params}`)
     : await axios.get(ingredentsURL);
   const { data } = res;
   return data;

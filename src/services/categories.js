@@ -6,7 +6,7 @@ const categoriesURL = `${API_URL}/category/`;
 
 export const getCategories = async (params) => {
   const res = params
-    ? await axios.get(`${categoriesURL}${params}`)
+    ? await axios.get(`${categoriesURL}?${params}`)
     : await axios.get(categoriesURL);
   const { data } = res;
   return data;

@@ -33,11 +33,12 @@ export const getUsers = async (params) => {
     };
 
     const res = params
-      ? await axios.get(`${usersURL}${params}`, config)
+      ? await axios.get(`${usersURL}?${params}`, config)
       : await axios.get(usersURL, config);
-    return res;
+
+    const { data } = res;
+    return data;
   } catch (error) {
-    const { response } = res;
-    return;
+    console.error(error);
   }
 };
