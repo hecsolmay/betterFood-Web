@@ -12,8 +12,7 @@ import Produts from "./pages/products";
 import Profile from "./pages/profile";
 import Signup from "./pages/register";
 import Reports from "./pages/reports";
-import Sales from "./pages/sales";
-import ShoppingList from "./pages/shoppingList";
+import ShoppingList from "./pages/orders/details";
 import Tables from "./pages/tables";
 import Roles from "./pages/users/";
 import Waiters from "./pages/waiters";
@@ -34,10 +33,9 @@ const App = () => {
           <Route path="/ingredents" element={<Ingredents />} />
           <Route path="/waiters" element={<Waiters />} />
           <Route path="/tables" element={<Tables />} />
-          <Route path="/orders" element={<Orders />} />
           <Route path="/reports" element={<Reports />} />
-          <Route path="sales" element={<Sales />} />
-          <Route path="sales/:id" element={<ShoppingList />} />
+          <Route path="/orders" element={<Orders />} />
+          <Route path="orders/:id" element={<ShoppingList />} />
           <Route path="/roles" element={<Roles />} />
           <Route path="/profile" element={<Profile />} />
         </Route>
