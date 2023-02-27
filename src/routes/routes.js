@@ -11,6 +11,5 @@ export const routes = [
   { text: "Tables", icon: "fa-solid fa-chalkboard-user", path: "/tables" },
   { text: "Reports", icon: "fa-solid fa-chart-column", path: "/reports" },
   { text: "Orders", icon: "fa-regular fa-credit-card", path: "/orders" },
-  { text: "Sales", icon: "fa-solid fa-sack-dollar", path: "/sales" },
   { text: "Users", icon: "fa-solid fa-users", path: "/roles" },
-]; 
+];
