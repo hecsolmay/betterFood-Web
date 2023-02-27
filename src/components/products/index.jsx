@@ -1,10 +1,9 @@
 export const TableHeaders = () => (
   <thead>
     <tr>
-      <th>id</th>
-      <th>nombre</th>
-      <th>precio</th>
-      <th>ordenado</th>
+      <th>Nombre</th>
+      <th>Precio</th>
+      <th>Ordenado</th>
       <th>Activo</th>
       <th>Acciones</th>
     </tr>
@@ -18,9 +17,8 @@ export const TableItems = ({
   children,
 }) => (
   <tbody>
-    {products.map((p) => (
+    {products.map((p,index) => (
       <tr key={p.id}>
-        <td>{p.id}</td>
         <td>{p.name}</td>
         <td>{p.price}</td>
         <td>{p.ordered}</td>

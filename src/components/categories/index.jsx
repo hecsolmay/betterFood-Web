@@ -1,9 +1,8 @@
 export const TableHeaders = () => (
   <thead>
     <tr>
-      <th>Id</th>
-      <th>Imagen</th>
       <th>Nombre</th>
+      <th>Imagen</th>
       <th>{"Productos Totales"}</th>
       <th>Activo</th>
       <th>Acciones</th>
@@ -24,11 +23,10 @@ export const TableItems = ({
     {categories.length !== 0
       ? categories.map((c) => (
           <tr key={c.id}>
-            <td>{c.id}</td>
+            <td>{c.name}</td>
             <td className="text-center">
               <img src={c.imgURL} className="image-table" />
             </td>
-            <td>{c.name}</td>
             <td>{c.totalProducts}</td>
             <td>{c.active === 1 ? "Si" : "No"}</td>
             <td>

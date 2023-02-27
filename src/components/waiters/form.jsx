@@ -1,7 +1,15 @@
 import React from "react";
 import { Row } from "../../common";
 
-const FormWaiters = ({ handleChange, handleSubmit, name,lastName,birthdate, task = 1, resetTask }) => {
+const FormWaiters = ({
+  handleChange,
+  handleSubmit,
+  name,
+  lastName,
+  birthdate,
+  task = 1,
+  resetTask,
+}) => {
   return (
     <form className="row g-3" id="form" onSubmit={handleSubmit}>
       <div className="col-md-12">
@@ -51,13 +59,15 @@ const FormWaiters = ({ handleChange, handleSubmit, name,lastName,birthdate, task
         </button>
       ) : (
         <Row>
-          <div className="col-sm-8">
+          <div className="col-sm-6">
             <button className="btn btn-small btn-warning mt-4">
-              Actualizar Ingrediente
+              Actualizar
             </button>
           </div>
-          <div className="col-sm-4">
-            <button className="btn btn-small btn-dark mt-4" onClick={resetTask}>Cerrar</button>
+          <div className="col-sm-6">
+            <button className="btn btn-small btn-dark mt-4" onClick={resetTask}>
+              Cerrar
+            </button>
           </div>
         </Row>
       )}

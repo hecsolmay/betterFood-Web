@@ -24,7 +24,7 @@ const table = ({ children, info = {}, title = "" }) => {
             limit={info.limit}
             />
             
-            <div className="row">
+            <div className="row mt-3">
               <div className="col-sm-12">
                 <table
                   className="table table-bordered"
