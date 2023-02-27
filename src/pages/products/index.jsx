@@ -160,7 +160,7 @@ const products = () => {
     setLoading(true);
     setError(null);
     try {
-      const dataProducts = await services.getProducts(`?${params.toString()}`);
+      const dataProducts = await services.getProducts(params.toString());
       console.log(dataProducts.results);
       setProducts(dataProducts.results);
       setInfo(dataProducts.info);

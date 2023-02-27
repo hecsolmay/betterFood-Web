@@ -7,3 +7,7 @@
 .hover-card:hover {
     cursor: pointer;
 }
+
+.min-heigth-300 {
+  min-height: 300px;
+}

@@ -1,10 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import "../styles/shoppingList.css";
-import { ContainerAdmin, ContainerFluid } from "../common";
+import "./shoppingList.css";
 
-const ShoppingList = () => {
+const ShoppingList = ({items}) => {
   return (
     <Container>
       <LeftCard />
@@ -68,6 +67,17 @@ const ListItem = () => (
       <div className="col">
         <div className="row">Cotton T-shirt</div>
       </div>
+      <div className="col">
+        personalizado
+        personalizado
+        personalizado
+        personalizado
+        personalizado
+        personalizado
+        personalizado
+        personalizado
+        personalizado
+      </div>
       <div className="col">3</div>
       <div className="col">44.00</div>
     </div>
@@ -109,10 +119,9 @@ const LeftCard = ({ children }) => (
       <ListItem />
     </div>
     <div className="back-to-shop text-left mt-40">
-      <button className="btn-sm btn-primary">
-        <Link to="/sales" className="text-white ref-none">Back to shop</Link>
-      </button>
-      {/* <span className="text-muted">Back to shop</span> */}
+      <Link to={"/orders"}>
+        <button className="btn-sm btn-primary">Back to shop</button>
+      </Link>
     </div>
   </div>
 );

@@ -1,10 +1,17 @@
-import React, { useState, useEffect } from "react";
-import { Headers, ContainerAdmin, ContainerFluid, Row } from "../../common";
-import Table from "../../components/tables/table";
-import { Loader } from "../../common";
-import { getTables } from "../../services/tables";
+import React, { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
+import {
+  ContainerAdmin,
+  ContainerFluid,
+  Headers,
+  Loader,
+  Pagination,
+  Row,
+} from "../../common";
 import Col from "../../components/col-xl-3";
-import { createTable } from "../../services/tables";
+import SelectItems from "../../components/tables/selectItems";
+import * as services from "../../services/tables";
+import { getTables } from "../../services/tables";
 import { TableCard } from "./components";
 import "./index.css";
 
@@ -13,18 +20,24 @@ const TablesPage = () => {
   const [task, setTask] = useState(1);
   const [tables, setTables] = useState([]);
   const [info, setInfo] = useState({});
-  const [id, setId] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [params] = useSearchParams();
 
   const handleSubmit = async (ev) => {
     ev.preventDefault();
-    createTable(form);
+
+    task === 1
+      ? await services.createTable(form)
+      : await services.updateTable(form.id, form);
+
+    getData();
+    reset();
   };
 
   const getData = async () => {
     setLoading(true);
     try {
-      const data = await getTables();
+      const data = await getTables(params.toString());
       console.log(data);
       setTables(data.results);
       setInfo(data.info);
@@ -37,16 +50,38 @@ const TablesPage = () => {
 
   const handleChange = (ev) => {
     setForm({ ...form, [ev.target.name]: ev.target.value });
+    console.log(ev.target.checked);
   };
 
-  const handleUpdate = (id = 1) => {
-    setId(id);
+  const handleChangeActive = (ev) => {
+    setForm({ ...form, active: !form.active });
+  };
+
+  const handleUpdate = (table) => {
     setTask(2);
+    setForm(() => {
+      return {
+        ...table,
+        active: table.active == 1,
+      };
+    });
+  };
+
+  const handleDowload = async (taskQr = 1) => {
+    if (taskQr === 1) {
+      return await services.generateListQr();
+    }
+
+    await services.generateAllQr();
+  };
+
+  const handleDownloadId = async (id) => {
+    await services.generateQrById(id);
   };
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [params]);
 
   const reset = () => {
     setForm({});
@@ -70,6 +105,7 @@ const TablesPage = () => {
                   name="numMesa"
                   required
                   onChange={handleChange}
+                  value={form.numMesa || ""}
                 />
                 <label htmlFor="capacity" className="form-label mt-3">
                   {"Capacidad de la mesa"}
@@ -81,6 +117,8 @@ const TablesPage = () => {
                   onChange={handleChange}
                   name="capacity"
                   required
+                  min={0}
+                  value={form.capacity || ""}
                 />
 
                 {task === 1 ? (
@@ -90,25 +128,16 @@ const TablesPage = () => {
                 ) : (
                   <>
                     <label htmlFor="active" className="form-label mt-3">
-                      {"Estado"}
+                      {"Activo"}
                     </label>
                     <input
                       id="active"
                       type="checkbox"
-                      // className="form-control"
-                      onChange={handleChange}
+                      className="ms-2 mt-2"
                       name="active"
-                      required
+                      onChange={handleChangeActive}
+                      checked={form.active}
                     />
-                    <label htmlFor="waiterId" className="form-label mt-3">
-                      {"Mesero"}
-                    </label>
-                    <select name="waiterId" id="waiterId">
-                      <option value="1">1</option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
-                      <option value="4">4</option>
-                    </select>
                     <Row>
                       <div className="col-sm-8">
                         <button className="btn btn-small btn-warning mt-4">
@@ -129,8 +158,28 @@ const TablesPage = () => {
               </div>
             </form>
           </Col>
-          <Col>
+          <Col className="min-heigth-300">
             <Row>
+              <SelectItems limit={info.limit} search={false} />
+              <Row>
+                <div className="col-sm-12 col-md-4 mt-4 mb-4">
+                  <button
+                    className="btn btn-large btn-primary"
+                    onClick={handleDowload}
+                  >
+                    Qrs de la pagina
+
+                  </button>
+                </div>
+                <div className="col-sm-12 col-md-5 mt-4 mb-4">
+                  <button
+                    className="btn btn-large btn-primary"
+                    onClick={async () => await handleDowload(2)}
+                  >
+                    Generar Todos los Qrs{" "}
+                  </button>
+                </div>
+              </Row>
               {loading ? (
                 <Loader />
               ) : (
@@ -138,12 +187,14 @@ const TablesPage = () => {
                   {tables.map((table) => (
                     <TableCard
                       key={table.id}
-                      handleUpdate={handleUpdate}
+                      handleUpdate={() => handleUpdate(table)}
                       data={table}
+                      handleDownloadId={async () => handleDownloadId(table.id)}
                     />
                   ))}
                 </>
               )}
+              <Pagination info={info} />
             </Row>
           </Col>
         </Row>

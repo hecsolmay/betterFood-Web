@@ -25,7 +25,6 @@ const categories = () => {
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState(null);
   const [params] = useSearchParams();
-  
 
   const handleCategoriesChange = (categories) => {
     setCategories(categories);
@@ -119,7 +118,7 @@ const categories = () => {
     setLoading(true);
     setError(null);
     try {
-      const data = await services.getCategories(`?${params.toString()}`);
+      const data = await services.getCategories(params.toString());
       console.log(data);
       setCategories(data.results);
       setInfo(data.info);

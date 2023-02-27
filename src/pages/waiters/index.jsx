@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import {
   Headers,
   ContainerAdmin,
@@ -18,6 +19,7 @@ const WaitersPage = () => {
   const [loading, setLoading] = useState(false);
   const [info, setInfo] = useState({});
   const [task, setTask] = useState(1); // Task 1 == Create / Tast 2 == Update
+  const [params] = useSearchParams();
 
   const handleSubmit = async (ev) => {
     ev.preventDefault();
@@ -41,7 +43,7 @@ const WaitersPage = () => {
       });
       alert("Actualizado con exito");
       setTask(1);
-      resetTask()
+      resetTask();
     }
     getData();
   };
@@ -55,7 +57,7 @@ const WaitersPage = () => {
     setLoading(true);
     setError(null);
     try {
-      const data = await services.getWaiters();
+      const data = await services.getWaiters(params.toString());
       console.log(data);
       setWaiters(data.results);
       setInfo(data.info);
@@ -81,6 +83,17 @@ const WaitersPage = () => {
     getData();
   };
 
+  const handleDowload = async (taskQr = 1) => {
+    if (taskQr === 1) {
+      return await services.generateListQr();
+    }
+    await services.generateAllQr();
+  };
+
+  const handleDownloadId = async (id) => {
+    await services.generateQrById(id);
+  };
+
   const handleEdit = async (w) => {
     console.log(w);
     setTask(2);
@@ -97,7 +110,7 @@ const WaitersPage = () => {
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [params]);
 
   return (
     <ContainerAdmin>
@@ -122,6 +135,25 @@ const WaitersPage = () => {
                 Recargar
               </button>
             </div>
+            <Row>
+              <div className="col-sm-12 col-md-4 mt-4 mb-4">
+                <button
+                  className="btn btn-large btn-primary"
+                  onClick={handleDowload}
+                >
+                  Qrs de la pagina
+                </button>
+              </div>
+              <div className="col-sm-12 col-md-5 mt-4 mb-4">
+                <button
+                  className="btn btn-large btn-primary"
+                  onClick={async () => await handleDowload(2)}
+                >
+                  Generar Todos los Qrs{" "}
+                </button>
+              </div>
+            </Row>
+
             {loading ? (
               <Loader />
             ) : (
@@ -130,22 +162,33 @@ const WaitersPage = () => {
                   <Table info={info} title="Waiter">
                     <thead>
                       <tr>
-                        <th>Id</th>
                         <th>Nombre</th>
                         <th>Apellido</th>
                         <th>Fecha de Nacimiento</th>
                         <th>Activo</th>
+                        <th>QR</th>
                         <th>Acciones</th>
                       </tr>
                     </thead>
                     <tbody>
                       {waiters.map((w) => (
                         <tr key={w.id}>
-                          <td>{w.id}</td>
                           <td>{w.name}</td>
                           <td>{w.lastName}</td>
                           <td>{new Date(w.birthdate).toLocaleDateString()}</td>
                           <td>{w.active === 1 ? "Si" : "No"}</td>
+                          <td>
+                            <button
+                              className={
+                                w.active == 1
+                                  ? "btn btn-sm btn-dark"
+                                  : "btn btn-sm btn-dark disabled"
+                              }
+                              onClick={async () => handleDownloadId(w.id)}
+                            >
+                              <i className="fa-solid fa-qrcode"></i>
+                            </button>
+                          </td>
                           <td>
                             {w.active === 1 ? (
                               <>

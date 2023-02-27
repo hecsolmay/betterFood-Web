@@ -19,7 +19,7 @@ const IngredentsPage = () => {
   const [loading, setLoading] = useState(false);
   const [info, setInfo] = useState({});
   const [task, setTask] = useState(1); // Task 1 == Create / Tast 2 == Update
-  const [params] = useSearchParams()
+  const [params] = useSearchParams();
 
   const handleSubmit = async (ev) => {
     ev.preventDefault();
@@ -54,7 +54,7 @@ const IngredentsPage = () => {
     setLoading(true);
     setError(null);
     try {
-      const data = await services.getIngredents(`?${params.toString()}`);
+      const data = await services.getIngredents(params.toString());
       console.log(data);
       setIngredents(data.results);
       setInfo(data.info);
@@ -118,7 +118,6 @@ const IngredentsPage = () => {
                   <Table info={info} title="Ingredientes">
                     <thead>
                       <tr>
-                        <th>Id</th>
                         <th>Nombre</th>
                         <th>Activo</th>
                         <th>Acciones</th>
@@ -127,7 +126,6 @@ const IngredentsPage = () => {
                     <tbody>
                       {ingredents.map((i) => (
                         <tr key={i.id}>
-                          <td>{i.id}</td>
                           <td>{i.name}</td>
                           <td>{i.active === 1 ? "Si" : "No"}</td>
                           <td>
