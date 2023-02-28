@@ -5,6 +5,7 @@ import { Loader } from "../../common";
 export const ProductForm = ({
   categories = [],
   handleFormChange,
+  form,
   handleFileUpload,
   setSelected,
   selected,
@@ -82,8 +83,9 @@ export const ProductForm = ({
           id="name"
           name="name"
           required
+          value={form.name || ""}
           onChange={handleFormChange}
-        />
+          />
       </div>
       <div className="col-md-6">
         <label htmlFor="price" className="form-label">
@@ -95,6 +97,7 @@ export const ProductForm = ({
           className="form-control"
           id="price"
           name="price"
+          value={form.price || ""}
           required
           onChange={handleFormChange}
         />
@@ -107,6 +110,7 @@ export const ProductForm = ({
           className="form-control"
           id="description"
           rows="3"
+          value={form.description || ""}
           maxLength={200}
           required
           name="description"
@@ -141,8 +145,8 @@ export const ProductForm = ({
                   handleDeleteIngredent={handleDeleteIngredent}
                   handleChange={handleChange}
                 />
-              );
-            })}
+                );
+              })}
           </>
         )}
       </div>

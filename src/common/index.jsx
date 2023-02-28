@@ -90,7 +90,7 @@ export const Pagination = ({ info }) => {
           aria-live="polite"
         >
           {limit * currentPage - limit} -
-          {limit * currentPage > items ? items : limit * currentPage}
+          {limit * currentPage > items ? items : limit * currentPage} de {items}
         </div>
       </div>
       <div className="col-sm-12 col-md-8">

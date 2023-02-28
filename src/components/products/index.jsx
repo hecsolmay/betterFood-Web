@@ -91,8 +91,9 @@ export const CreateIngredent = ({
         className="form-control me-2"
         name="extraPrice"
         onChange={(ev) => handleChange(ev, id)}
-        placeholder="Precio"
-        value={price ? price : 0}
+        placeholder="Precio extra"
+        // value={price ? price : 0}
+        // defaultValue={0}
         min={0}
         required
       />

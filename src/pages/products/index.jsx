@@ -142,8 +142,10 @@ const products = () => {
     $("#ModalUpdate").modal("hide");
     setImage("");
     $("#image").val("");
+    $("#productImage").val("");
     setIngredents([]);
     setSelected([]);
+    setSelectedIngredent([])
   };
 
   const getCategories = async () => {
@@ -222,6 +224,7 @@ const products = () => {
       >
         <ProductForm
           categories={categories}
+          form={form}
           handleFormChange={handleFormChange}
           setSelected={setSelected}
           selected={selected}
