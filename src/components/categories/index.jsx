@@ -32,39 +32,32 @@ export const TableItems = ({
             <td>
               {c.active === 1 ? (
                 <>
-                  <button
-                    className="btn btn-sm btn-warning btn-addon ms-3"
-                    onClick={() => handleEdit(c)}
-                  >
-                    <i className="fa fa-pen-to-square" />
-                  </button>
-                  <button
-                    className="btn btn-sm btn-danger btn-addon ms-3"
-                    onClick={() =>
-                      handleDelete({
-                        id: c.id,
-                        name: c.name,
-                        active: c.active,
-                      })
-                    }
-                  >
-                    <i className="fa-solid fa-trash" />
-                  </button>
+                  <div className="ms-3 mt-4">
+                    <i
+                      className="fa fa-pen-to-square cursor-pointer color-warning "
+                      onClick={() => handleEdit(c)}
+                    />
+                    <i
+                      className="fa-solid fa-trash cursor-pointer color-danger ms-3"
+                      onClick={() =>
+                        handleDelete({
+                          id: c.id,
+                          name: c.name,
+                          active: c.active,
+                        })
+                      }
+                    />
+                  </div>
                 </>
               ) : (
-                <button
-                  className="btn btn-sm btn-primary btn-addon ms-3"
-                  onClick={() =>
-                    handleDelete({
-                      id: c.id,
-                      name: c.name,
-                      active: c.active,
-                      category: c,
-                    })
-                  }
-                >
-                  <i className="fa fa-arrows-rotate"></i>
-                </button>
+                <div className="ms-4 mt-4">
+                  <i
+                    className="fa fa-arrows-rotate cursor-pointer color-green"
+                    onClick={() =>
+                      handleDelete({ id: c.id, name: c.name, active: c.active })
+                    }
+                  />
+                </div>
               )}
             </td>
           </tr>

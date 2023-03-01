@@ -131,14 +131,27 @@ const IngredentsPage = () => {
                           <td>
                             {i.active === 1 ? (
                               <>
-                                <button
-                                  className="btn btn-sm btn-warning btn-addon ms-3"
-                                  onClick={() => handleEdit(i)}
-                                >
-                                  <i className="fa fa-pen-to-square" />
-                                </button>
-                                <button
-                                  className="btn btn-sm btn-danger btn-addon ms-3"
+                                <div className="ms-3">
+                                  <i
+                                    className="fa fa-pen-to-square cursor-pointer color-warning "
+                                    onClick={() => handleEdit(i)}
+                                  />
+                                  <i
+                                    className="fa-solid fa-trash cursor-pointer color-danger ms-3"
+                                    onClick={() =>
+                                      handleDelete({
+                                        id: i.id,
+                                        name: i.name,
+                                        active: i.active,
+                                      })
+                                    }
+                                  />
+                                </div>
+                              </>
+                            ) : (
+                              <div className="ms-4">
+                                <i
+                                  className="fa fa-arrows-rotate cursor-pointer color-green"
                                   onClick={() =>
                                     handleDelete({
                                       id: i.id,
@@ -146,23 +159,8 @@ const IngredentsPage = () => {
                                       active: i.active,
                                     })
                                   }
-                                >
-                                  <i className="fa-solid fa-trash" />
-                                </button>
-                              </>
-                            ) : (
-                              <button
-                                className="btn btn-sm btn-primary btn-addon ms-3"
-                                onClick={() =>
-                                  handleDelete({
-                                    id: i.id,
-                                    name: i.name,
-                                    active: i.active,
-                                  })
-                                }
-                              >
-                                <i class="fa fa-arrows-rotate"></i>
-                              </button>
+                                />
+                              </div>
                             )}
                           </td>
                         </tr>

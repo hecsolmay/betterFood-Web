@@ -178,28 +178,47 @@ const WaitersPage = () => {
                           <td>{new Date(w.birthdate).toLocaleDateString()}</td>
                           <td>{w.active === 1 ? "Si" : "No"}</td>
                           <td>
-                            <button
+                            {/* <button
                               className={
                                 w.active == 1
                                   ? "btn btn-sm btn-dark"
                                   : "btn btn-sm btn-dark disabled"
                               }
                               onClick={async () => handleDownloadId(w.id)}
-                            >
-                              <i className="fa-solid fa-qrcode"></i>
-                            </button>
+                            ></button> */}
+                            {w.active == 1 ? (
+                              <i
+                                className="fa-solid fa-qrcode cursor-pointer"
+                                onClick={() => handleDownloadId(w.id)}
+                              />
+                            ) : (
+                              <i className="fa-solid fa-qrcode  " />
+                            )}
                           </td>
                           <td>
                             {w.active === 1 ? (
                               <>
-                                <button
-                                  className="btn btn-sm btn-warning btn-addon mb-2 ms-3"
-                                  onClick={() => handleEdit(w)}
-                                >
-                                  <i className="fa fa-pen-to-square" />
-                                </button>
-                                <button
-                                  className="btn btn-sm btn-danger btn-addon ms-3"
+                                <div className="ms-3">
+                                  <i
+                                    className="fa fa-pen-to-square cursor-pointer color-warning "
+                                    onClick={() => handleEdit(w)}
+                                  />
+                                  <i
+                                    className="fa-solid fa-trash cursor-pointer color-danger ms-3"
+                                    onClick={() =>
+                                      handleDelete({
+                                        id: w.id,
+                                        name: w.name,
+                                        active: w.active,
+                                      })
+                                    }
+                                  />
+                                </div>
+                              </>
+                            ) : (
+                              <div className="ms-4">
+                                <i
+                                  className="fa fa-arrows-rotate cursor-pointer color-green"
                                   onClick={() =>
                                     handleDelete({
                                       id: w.id,
@@ -207,23 +226,8 @@ const WaitersPage = () => {
                                       active: w.active,
                                     })
                                   }
-                                >
-                                  <i className="fa-solid fa-trash" />
-                                </button>
-                              </>
-                            ) : (
-                              <button
-                                className="btn btn-sm btn-primary btn-addon ms-3"
-                                onClick={() =>
-                                  handleDelete({
-                                    id: w.id,
-                                    name: w.name,
-                                    active: w.active,
-                                  })
-                                }
-                              >
-                                <i class="fa fa-arrows-rotate"></i>
-                              </button>
+                                />
+                              </div>
                             )}
                           </td>
                         </tr>

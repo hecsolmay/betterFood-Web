@@ -17,7 +17,7 @@ export const TableItems = ({
   children,
 }) => (
   <tbody>
-    {products.map((p,index) => (
+    {products.map((p) => (
       <tr key={p.id}>
         <td>{p.name}</td>
         <td>{p.price}</td>
@@ -27,30 +27,28 @@ export const TableItems = ({
         <td>
           {p.active === 1 ? (
             <>
-              <button
-                className="btn btn-sm btn-warning btn-addon ms-3"
-                onClick={() => handleEdit(p)}
-              >
-                <i className="fa fa-pen-to-square" />
-              </button>
-              <button
-                className="btn btn-sm btn-danger btn-addon ms-3"
+              <div className="ms-3">
+                <i
+                  className="fa fa-pen-to-square cursor-pointer color-warning "
+                  onClick={() => handleEdit(p)}
+                />
+                <i
+                  className="fa-solid fa-trash cursor-pointer color-danger ms-3"
+                  onClick={() =>
+                    handleDelete({ id: p.id, name: p.name, active: p.active })
+                  }
+                />
+              </div>
+            </>
+          ) : (
+            <div className="ms-4">
+              <i
+                className="fa fa-arrows-rotate cursor-pointer color-green"
                 onClick={() =>
                   handleDelete({ id: p.id, name: p.name, active: p.active })
                 }
-              >
-                <i className="fa-solid fa-trash" />
-              </button>
-            </>
-          ) : (
-            <button
-              className="btn btn-sm btn-primary btn-addon ms-3"
-              onClick={() =>
-                handleDelete({ id: p.id, name: p.name, active: p.active })
-              }
-            >
-              <i className="fa fa-arrows-rotate"></i>
-            </button>
+              />
+            </div>
           )}
         </td>
       </tr>

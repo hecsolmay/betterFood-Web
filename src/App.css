@@ -1,3 +1,19 @@
-textarea {
+.textarea {
   resize: none;
+}
+
+.cursor-pointer:hover {
+  cursor: pointer;
+}
+
+.color-warning {
+  color: rgb(231, 180, 13);
+}
+
+.color-danger {
+  color: red;
+}
+
+.color-green {
+  color: rgb(7, 201, 7);
 }
