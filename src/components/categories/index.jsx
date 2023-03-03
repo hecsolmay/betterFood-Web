@@ -18,14 +18,12 @@ export const TableItems = ({
 }) => (
   <tbody>
     {children}
-    {console.log("Categorias en Table Items")}
-    {console.log(categories.length === 0)}
     {categories.length !== 0
       ? categories.map((c) => (
           <tr key={c.id}>
             <td>{c.name}</td>
-            <td className="text-center">
-              <img src={c.imgURL} className="image-table" />
+            <td className="text-center image-placeholder">
+              <img src={c.imgURL} className="image-table image-placeholder" />
             </td>
             <td>{c.totalProducts}</td>
             <td>{c.active === 1 ? "Si" : "No"}</td>

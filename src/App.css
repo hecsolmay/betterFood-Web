@@ -17,3 +17,23 @@
 .color-green {
   color: rgb(7, 201, 7);
 }
+
+.border-red {
+  border: 1px solid #e6202091;
+}
+
+.width-70 {
+  width: 70px;
+}
+
+.color-admin {
+  color: rgb(9 169 71);
+}
+
+.color-moderator {
+  color: #f26f1c;
+}
+
+.color-user {
+  color: #3f3fbd;
+}

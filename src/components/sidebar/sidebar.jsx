@@ -9,21 +9,22 @@ const sidebar = ({ showSideBar }) => {
     <ul
       className={
         showSideBar
-          ? "navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
-          : "navbar-nav bg-gradient-primary sidebar sidebar-dark accordion collapse"
+          ? "navbar-nav bg-gradient-dark sidebar sidebar-dark accordion"
+          : "navbar-nav bg-gradient-dark sidebar sidebar-dark accordion collapse"
       }
       id="accordionSidebar"
     >
       {/* <!-- Sidebar - Brand --> */}
 
       <Link
-        className="sidebar-brand d-flex align-items-center justify-content-center"
+        className="sidebar-brand d-flex align-items-center justify-content-center mt-3"
         to="/dashboard"
       >
         <div className="sidebar-brand-icon rotate-n-15">
-          <i className="fas fa-laugh-wink"></i>
+          {/* <i className="fas fa-laugh-wink"></i> */}
+          <img src="img/logo.png" className="width-70" alt="" />
         </div>
-        <div className="sidebar-brand-text mx-3">Better Food</div>
+        <div className="sidebar-brand-text">Better Food</div>
       </Link>
 
       {/* <!-- Divider --> */}

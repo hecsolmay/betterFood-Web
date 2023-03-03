@@ -36,7 +36,6 @@ const products = () => {
   const handleEdit = (product) => {
     const avalibleCategories = categories.map((c) => c.id);
     categories;
-    console.log(product);
     $("#ModalUpdate").modal("show");
     const {
       id,
@@ -67,15 +66,7 @@ const products = () => {
     setIngredents(productIngre);
   };
 
-  const handleIngredentsChange = (ingredent) => {
-    setIngredents([...ingredents, ingredent]);
-    console.log("State Ingredents");
-    console.log(ingredents);
-  };
-
   const handleDelete = async ({ id, name, active }) => {
-    console.log({ id });
-    console.log({ name });
     const body = active === 1 ? { active: 0 } : { active: 1 };
     await services.updateProduct({ id, newProduct: body });
     const estado = active === 1 ? "inactivo" : "activo";
@@ -85,10 +76,7 @@ const products = () => {
 
   const handleFileUpload = async (ev) => {
     setUploading(true);
-    console.log(ev);
     setImage("");
-    console.log({ uploading });
-    console.log(ev.target.files[0]);
     const file = ev.target.files[0];
 
     try {
@@ -111,7 +99,6 @@ const products = () => {
 
   const handleSubmit = async (ev, action = 0) => {
     ev.preventDefault();
-    console.log("entro al submit");
     let cleanIngredents = ingredents.map((i) => {
       delete i.name;
       return {
@@ -125,7 +112,6 @@ const products = () => {
       ingredents: cleanIngredents,
     };
 
-    console.log(body);
     if (loading) return alert("Todavia Estan cargando los datos");
 
     action === 0
@@ -145,7 +131,7 @@ const products = () => {
     $("#productImage").val("");
     setIngredents([]);
     setSelected([]);
-    setSelectedIngredent([])
+    setSelectedIngredent([]);
   };
 
   const getCategories = async () => {
@@ -163,7 +149,6 @@ const products = () => {
     setError(null);
     try {
       const dataProducts = await services.getProducts(params.toString());
-      console.log(dataProducts.results);
       setProducts(dataProducts.results);
       setInfo(dataProducts.info);
     } catch (error) {
@@ -221,6 +206,7 @@ const products = () => {
         title="Crear Producto"
         action="Crear"
         btnClass={loading ? "btn btn-primary disabled" : "btn btn-primary"}
+        resetForm={resetData}
       >
         <ProductForm
           categories={categories}

@@ -68,8 +68,6 @@ export const Pagination = ({ info }) => {
 
   const [params, setParams] = useSearchParams();
 
-  console.log("parametros");
-  console.log(params.toString());
 
   const handleNext = () => {
     params.set("page", currentPage + 1);
@@ -168,7 +166,6 @@ const CreatePageNumber = ({ total = 1, current = 1 }) => {
     }
   }
 
-  console.log(numbers);
   return (
     <>
       {numbers.map((n) => (

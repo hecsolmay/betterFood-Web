@@ -91,7 +91,7 @@ export const CreateIngredent = ({
         onChange={(ev) => handleChange(ev, id)}
         placeholder="Precio extra"
         // value={price ? price : 0}
-        // defaultValue={0}
+        defaultValue={price ? price : 0}
         min={0}
         required
       />

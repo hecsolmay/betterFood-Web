@@ -34,11 +34,25 @@ const TablesPage = () => {
     reset();
   };
 
+  const handleDelete = async (table) => {
+    const active = table.active === 1;
+    const updatedTable = {
+      ...table,
+      active: !active,
+    };
+
+    await services.updateTable(table.id, updatedTable);
+    const message = updatedTable.active
+      ? `Mesa ${table.numMesa} habilitada`
+      : `Mesa ${table.numMesa} deshabilitada`;
+    alert(message);
+    getData();
+  };
+
   const getData = async () => {
     setLoading(true);
     try {
       const data = await getTables(params.toString());
-      console.log(data);
       setTables(data.results);
       setInfo(data.info);
     } catch (error) {
@@ -50,11 +64,6 @@ const TablesPage = () => {
 
   const handleChange = (ev) => {
     setForm({ ...form, [ev.target.name]: ev.target.value });
-    console.log(ev.target.checked);
-  };
-
-  const handleChangeActive = (ev) => {
-    setForm({ ...form, active: !form.active });
   };
 
   const handleUpdate = (table) => {
@@ -62,7 +71,6 @@ const TablesPage = () => {
     setForm(() => {
       return {
         ...table,
-        active: table.active == 1,
       };
     });
   };
@@ -126,34 +134,21 @@ const TablesPage = () => {
                     {"Crear Mesa"}
                   </button>
                 ) : (
-                  <>
-                    <label htmlFor="active" className="form-label mt-3">
-                      {"Activo"}
-                    </label>
-                    <input
-                      id="active"
-                      type="checkbox"
-                      className="ms-2 mt-2"
-                      name="active"
-                      onChange={handleChangeActive}
-                      checked={form.active}
-                    />
-                    <Row>
-                      <div className="col-sm-8">
-                        <button className="btn btn-small btn-warning mt-4">
-                          {"Actualizar Mesa"}
-                        </button>
-                      </div>
-                      <div className="col-sm-4">
-                        <button
-                          className="btn btn-small btn-dark mt-4"
-                          onClick={reset}
-                        >
-                          Cerrar
-                        </button>
-                      </div>
-                    </Row>
-                  </>
+                  <Row>
+                    <div className="col-sm-8">
+                      <button className="btn btn-small btn-warning mt-4">
+                        {"Actualizar Mesa"}
+                      </button>
+                    </div>
+                    <div className="col-sm-4">
+                      <button
+                        className="btn btn-small btn-dark mt-4"
+                        onClick={reset}
+                      >
+                        Cerrar
+                      </button>
+                    </div>
+                  </Row>
                 )}
               </div>
             </form>
@@ -168,7 +163,6 @@ const TablesPage = () => {
                     onClick={handleDowload}
                   >
                     Qrs de la pagina
-
                   </button>
                 </div>
                 <div className="col-sm-12 col-md-5 mt-4 mb-4">
@@ -190,6 +184,7 @@ const TablesPage = () => {
                       handleUpdate={() => handleUpdate(table)}
                       data={table}
                       handleDownloadId={async () => handleDownloadId(table.id)}
+                      handleDelete={async () => handleDelete(table)}
                     />
                   ))}
                 </>

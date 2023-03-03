@@ -25,13 +25,11 @@ const WaitersPage = () => {
     ev.preventDefault();
 
     if (task === 1) {
-      console.log("Subiendo formulario...");
       await services.createWaiter(form);
       alert("creado con exito");
     }
 
     if (task === 2) {
-      console.log("editando entidad");
       const waiterChage = {
         name: form.name,
         lastName: form.lastName,
@@ -49,7 +47,6 @@ const WaitersPage = () => {
   };
 
   const handleChange = (ev) => {
-    console.log(ev.target.value);
     setForm({ ...form, [ev.target.name]: ev.target.value });
   };
 
@@ -58,11 +55,10 @@ const WaitersPage = () => {
     setError(null);
     try {
       const data = await services.getWaiters(params.toString());
-      console.log(data);
       setWaiters(data.results);
       setInfo(data.info);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       setError(error);
     }
     setLoading(false);
@@ -95,16 +91,13 @@ const WaitersPage = () => {
   };
 
   const handleEdit = async (w) => {
-    console.log(w);
     setTask(2);
     let birthdate = new Date(w.birthdate).toLocaleDateString().split("/");
-    console.log(birthdate);
     birthdate[1] =
       birthdate[1].length === 2 ? birthdate[1] : `0${birthdate[1]}`;
     birthdate[0] =
       birthdate[0].length === 2 ? birthdate[0] : `0${birthdate[1]}`;
     birthdate = birthdate.reverse().join("-");
-    console.log(birthdate);
     setForm({ id: w.id, name: w.name, lastName: w.lastName, birthdate });
   };
 

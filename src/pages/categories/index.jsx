@@ -32,10 +32,7 @@ const categories = () => {
 
   const handleFileUpload = async (ev) => {
     setUploading(true);
-    console.log(ev);
     setImage("");
-    console.log({ uploading });
-    console.log(ev.target.files[0]);
     const file = ev.target.files[0];
 
     try {
@@ -54,14 +51,12 @@ const categories = () => {
 
   const handleFormChange = (ev) => {
     setForm({ ...form, [ev.target.name]: ev.target.value });
-    console.log(form);
   };
 
   const handleSubmit = async (ev) => {
     ev.preventDefault();
     if (loading) return alert("Todavia Estan cargando los datos");
 
-    console.log(form);
     await services.createCategory(form);
     alert("Creado Con exito");
     $("#Modal").modal("hide");
@@ -85,9 +80,6 @@ const categories = () => {
     ev.preventDefault();
     if (loading) return alert("Todavia Estan Cargando los datos");
     setForm({ ...form, imgURL: image });
-    console.log("Formulario");
-    console.log(form);
-    console.log(id);
     await services.updateCategory({ id, newCategory: form });
     alert("Actualizado");
     resetForm();
@@ -102,11 +94,7 @@ const categories = () => {
   };
 
   const handleDelete = async ({ id, name, active, category }) => {
-    console.log({ id });
-    console.log({ name });
-    console.log(category);
     const body = active === 1 ? { active: 0 } : { active: 1 };
-    console.log(body);
     const status = active === 1 ? "inactivo" : "activo";
     // await deleteCategory(id);
     await services.updateCategory({ id, newCategory: body });
@@ -119,11 +107,9 @@ const categories = () => {
     setError(null);
     try {
       const data = await services.getCategories(params.toString());
-      console.log(data);
       setCategories(data.results);
       setInfo(data.info);
     } catch (error) {
-      console.log(error);
       setError(error);
     }
     setLoading(false);

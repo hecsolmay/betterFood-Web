@@ -25,13 +25,11 @@ const IngredentsPage = () => {
     ev.preventDefault();
 
     if (task === 1) {
-      console.log("Subiendo formulario...");
       await services.createIngredent(form);
       alert("creado con exito");
     }
 
     if (task === 2) {
-      console.log("editando entidad");
       let ingredentChange = {
         name: form.name,
       };
@@ -55,11 +53,10 @@ const IngredentsPage = () => {
     setError(null);
     try {
       const data = await services.getIngredents(params.toString());
-      console.log(data);
       setIngredents(data.results);
       setInfo(data.info);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       setError(error);
     }
     setLoading(false);
@@ -79,7 +76,6 @@ const IngredentsPage = () => {
   };
 
   const handleEdit = async (i) => {
-    console.log(i);
     setTask(2);
     setForm({ id: i.id, name: i.name });
     // await services.updateIngredent({id: i.id})
