@@ -23,7 +23,7 @@ export const ButtonModal = ({ title = "" }) => (
 
 export const Loader = () => (
   <div className="text-center">
-    <img src="img/loading.gif" className="loader" />
+    <img src="/public/img/loading.gif" className="loader" />
   </div>
 );
 
@@ -68,7 +68,6 @@ export const Pagination = ({ info }) => {
 
   const [params, setParams] = useSearchParams();
 
-
   const handleNext = () => {
     params.set("page", currentPage + 1);
     setParams(params);
@@ -101,7 +100,7 @@ export const Pagination = ({ info }) => {
                   className="page-link"
                   onClick={handlePrevius}
                 >
-                  <i class="fa-solid fa-arrow-left"></i>
+                  <i className="fa-solid fa-arrow-left"></i>
                 </button>
               </li>
             )}
@@ -110,7 +109,7 @@ export const Pagination = ({ info }) => {
             {next && (
               <li className="paginate_button page-item next">
                 <button tabIndex={0} className="page-link" onClick={handleNext}>
-                  <i class="fa-solid fa-arrow-right"></i>
+                  <i className="fa-solid fa-arrow-right"></i>
                 </button>
               </li>
             )}
