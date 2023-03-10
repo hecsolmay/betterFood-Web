@@ -1,5 +1,7 @@
 import axios from "axios";
 import { API_URL } from "../../config";
+import { createAlert, updateAlert } from "../components/alerts";
+import { getAlert } from "../utils/errorResponse";
 import { getTokenItem } from "../utils/localStorage";
 import { generateQr } from "../utils/qrgenerate";
 
@@ -21,7 +23,10 @@ export const generateListQr = async () => {
 
     generateQr(res);
   } catch (error) {
+    const { response: res } = error;
     console.error(error);
+    await getAlert(res.status);
+    return res;
   }
 };
 
@@ -32,7 +37,10 @@ export const generateAllQr = async () => {
     });
     generateQr(res);
   } catch (error) {
+    const { response: res } = error;
     console.error(error);
+    await getAlert(res.status);
+    return res;
   }
 };
 
@@ -44,7 +52,10 @@ export const generateQrById = async (id) => {
 
     generateQr(res);
   } catch (error) {
+    const { response: res } = error;
     console.error(error);
+    await getAlert(res.status);
+    return res;
   }
 };
 
@@ -54,8 +65,18 @@ export const createTable = async (newTable) => {
       headers: { Authorization: `Bearer ${getTokenItem()}` },
     };
     const res = await axios.post(`${tableURL}`, newTable, config);
+    await createAlert(`Mesa ${newTable.numMesa}`);
+    return res;
   } catch (error) {
-    console.error(error);
+    const { response: res } = error;
+    console.error(res);
+    await getAlert(
+      res.status,
+      `Mesa ${newTable.numMesa}`,
+      "una mesa",
+      "numero"
+    );
+    return res;
   }
 };
 
@@ -65,8 +86,16 @@ export const updateTable = async (id, newTable) => {
       headers: { Authorization: `Bearer ${getTokenItem()}` },
     };
     const res = await axios.put(`${tableURL}/${id}`, newTable, config);
-    console.log(res);
+    await updateAlert();
+    return res;
   } catch (error) {
-    console.error(error);
+    const { response: res } = error;
+    console.error(res);
+    await getAlert(
+      res.status,
+      `Mesa ${newTable.numMesa}`,
+      "una mesa",
+      "numero"
+    );
   }
 };
