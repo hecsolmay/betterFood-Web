@@ -7,10 +7,7 @@ const ProtectedRoutes = () => {
   let user = getUser();
 
   if (user) {
-    console.log(expire);
-    console.log("Datos");
     if (Math.floor(Date.now() / 1000) > expire) {
-      console.log("Expiro");
       removeLocalItems();
       return <Navigate to="/login" />;
     }
