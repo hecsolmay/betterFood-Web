@@ -1,6 +1,6 @@
 import React from "react";
-import { Headers, ContainerAdmin, ContainerFluid, Row } from "../common";
-import EarningsCard from "../components/dashboard/earningsCard";
+import { Headers, ContainerAdmin, ContainerFluid, Row } from "../../common";
+import EarningsCard from "../../components/dashboard/earningsCard";
 
 const cardDetails = [];
 

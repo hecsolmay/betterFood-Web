@@ -8,6 +8,7 @@ import {
   Pagination,
   Row,
 } from "../../common";
+import { deleteAlert } from "../../components/alerts";
 import Col from "../../components/col-xl-3";
 import SelectItems from "../../components/tables/selectItems";
 import * as services from "../../services/tables";
@@ -26,27 +27,31 @@ const TablesPage = () => {
   const handleSubmit = async (ev) => {
     ev.preventDefault();
 
-    task === 1
-      ? await services.createTable(form)
-      : await services.updateTable(form.id, form);
+    const res =
+      task === 1
+        ? await services.createTable(form)
+        : await services.updateTable(form.id, form);
 
-    getData();
-    reset();
+    if (res.status === 200 || res.status === 201) {
+      getData();
+      reset();
+    }
   };
 
   const handleDelete = async (table) => {
-    const active = table.active === 1;
-    const updatedTable = {
-      ...table,
-      active: !active,
-    };
-
-    await services.updateTable(table.id, updatedTable);
-    const message = updatedTable.active
-      ? `Mesa ${table.numMesa} habilitada`
-      : `Mesa ${table.numMesa} deshabilitada`;
-    alert(message);
-    getData();
+    deleteAlert(`la Mesa ${table.numMesa}`, table.active === 1).then(
+      async (res) => {
+        if (res.isConfirmed) {
+          const active = table.active === 1;
+          const updatedTable = {
+            ...table,
+            active: !active,
+          };
+          await services.updateTable(table.id, updatedTable);
+          getData();
+        }
+      }
+    );
   };
 
   const getData = async () => {

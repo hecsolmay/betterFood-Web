@@ -1,26 +1,26 @@
 import React, { useState } from "react";
 import { Row } from "../../common";
 import Container from "../../components/login/container";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { signup } from "../../services/users";
 import { getTokenItem, getUser, setItems } from "../../utils/localStorage";
 
 const register = () => {
   const [form, setform] = useState({});
   const [error, setError] = useState(false);
+  const navigate = useNavigate();
 
   const handleChange = (ev) => {
     setform({ ...form, [ev.target.name]: ev.target.value });
   };
 
-  const handleSubmit = (ev) => {
+  const handleSubmit = async (ev) => {
     ev.preventDefault();
     console.log(form);
 
     const { apellido, nombre, email, password, repeatPassword } = form;
 
-    if (repeatPassword !== password)
-      return setError(true);
+    if (repeatPassword !== password) return setError(true);
 
     const user = {
       username: nombre + " " + apellido,
@@ -28,24 +28,11 @@ const register = () => {
       password,
     };
 
-    signup(user).then((res) => {
-      if (res.status != 200) {
-        return console.log("fallo algo");
-      }
+    const res = await signup(user);
 
-      const { data } = res;
-      setItems(data);
-
-      navigate("/dashboard");
-
-      let token = getTokenItem();
-      let user = getUser();
-
-      console.log(token);
-      console.log(user);
-    });
-
-    console.log(user);
+    if (res.status === 201 || res.status === 200) {
+      navigate("/login");
+    }
   };
 
   return (
@@ -136,18 +123,12 @@ const register = () => {
                 Register Account
               </button>
               <hr />
-              {/* <button
-                href="index.html"
-                className="btn btn-google btn-user btn-block"
-              >
-                <i className="fab fa-google fa-fw"></i> Register with Google
-              </button> */}
             </form>
             <hr />
 
             <div className="text-center">
               <Link className="small" to="/login">
-                Already have an account? Login!
+                ¿Ya tienes una cuenta? Inicia sesion!
               </Link>
             </div>
           </div>

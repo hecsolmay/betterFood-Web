@@ -16,6 +16,7 @@ import { getAllCategories } from "../../services/categories";
 import { getAllIngredents } from "../../services/ingredents";
 import * as services from "../../services/products";
 import "./index.css";
+import { deleteAlert } from "../../components/alerts";
 
 const products = () => {
   const [products, setProducts] = useState([]);
@@ -29,7 +30,7 @@ const products = () => {
   const [selected, setSelected] = useState([]);
   const [selectedIngredent, setSelectedIngredent] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState(false);
   const [params] = useSearchParams();
   const [uploading, setUploading] = useState(false);
 
@@ -67,11 +68,13 @@ const products = () => {
   };
 
   const handleDelete = async ({ id, name, active }) => {
-    const body = active === 1 ? { active: 0 } : { active: 1 };
-    await services.updateProduct({ id, newProduct: body });
-    const estado = active === 1 ? "inactivo" : "activo";
-    alert(`Cambiado a estado ${estado} ${name}`);
-    getData();
+    deleteAlert(name, active === 1).then(async (response) => {
+      if (response.isConfirmed) {
+        const body = active === 1 ? { active: 0 } : { active: 1 };
+        await services.updateProduct({ id, newProduct: body });
+        getData();
+      }
+    });
   };
 
   const handleFileUpload = async (ev) => {
@@ -114,12 +117,15 @@ const products = () => {
 
     if (loading) return alert("Todavia Estan cargando los datos");
 
-    action === 0
-      ? await services.createProduct(body)
-      : await services.updateProduct({ id: id, newProduct: body });
-    action === 0 ? alert("Creado Con exito") : alert("Actaulizado con exito");
-    resetData();
-    getData();
+    const res =
+      action === 0
+        ? await services.createProduct(body)
+        : await services.updateProduct({ id: id, newProduct: body });
+
+    if (res.status === 200 || res.status === 201 || res.status === 204) {
+      resetData();
+      getData();
+    }
   };
 
   const resetData = () => {
@@ -135,25 +141,36 @@ const products = () => {
   };
 
   const getCategories = async () => {
-    const dataCategories = await getAllCategories("?limit=100");
-    setCategories(dataCategories.results);
+    const res = await getAllCategories();
+    if (res.status === 200) {
+      const { data } = res;
+      setCategories(data.results);
+    } else {
+      setError(true);
+    }
   };
 
   const getIngredentsDTO = async () => {
-    const dataIngredents = await getAllIngredents();
-    setIngredentsData(dataIngredents.results);
+    const res = await getAllIngredents();
+    if (res.status === 200) {
+      const { data } = res;
+      setIngredentsData(data.results);
+    } else {
+      setError(true);
+    }
   };
 
   const getData = async () => {
     setLoading(true);
-    setError(null);
-    try {
-      const dataProducts = await services.getProducts(params.toString());
-      setProducts(dataProducts.results);
-      setInfo(dataProducts.info);
-    } catch (error) {
-      console.error(error);
-      setError(error);
+    setError(false);
+
+    const res = await services.getProducts(params.toString());
+    if (res.status === 200) {
+      const { data } = res;
+      setProducts(data.results);
+      setInfo(data.info);
+    } else {
+      setError(true);
     }
 
     setLoading(false);

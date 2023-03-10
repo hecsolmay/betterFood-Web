@@ -7,6 +7,7 @@ import {
   Row,
   Loader,
 } from "../../common";
+import { deleteAlert } from "../../components/alerts";
 import Col from "../../components/col-xl-3";
 import Table from "../../components/tables/table";
 import FormWaiter from "../../components/waiters/form";
@@ -25,8 +26,11 @@ const WaitersPage = () => {
     ev.preventDefault();
 
     if (task === 1) {
-      await services.createWaiter(form);
-      alert("creado con exito");
+      const res = await services.createWaiter(form);
+
+      if ((res.status === 200) | (res.status === 201)) {
+        getData();
+      }
     }
 
     if (task === 2) {
@@ -35,15 +39,15 @@ const WaitersPage = () => {
         lastName: form.lastName,
         birthdate: form.birthdate,
       };
-      await services.updateWaiter({
+      const res = await services.updateWaiter({
         id: form.id,
         newWaiter: waiterChage,
       });
-      alert("Actualizado con exito");
-      setTask(1);
-      resetTask();
+      if ((res.status === 200) | (res.status === 201)) {
+        getData();
+        resetTask();
+      }
     }
-    getData();
   };
 
   const handleChange = (ev) => {
@@ -70,13 +74,13 @@ const WaitersPage = () => {
     setForm({ name: "", lastName: "", birthdate: "" });
   };
   const handleDelete = async ({ id, name, active }) => {
-    let status = active === 1 ? 0 : 1;
-    const body = {
-      active: status,
-    };
-    await services.updateWaiter({ id, newWaiter: body });
-    alert(`Cambiado el estado de ${name}`);
-    getData();
+    deleteAlert(name, active === 1).then(async (response) => {
+      if (response.isConfirmed) {
+        const body = active === 1 ? { active: 0 } : { active: 1 };
+        await services.updateWaiter({ id, newWaiter: body });
+        getData();
+      }
+    });
   };
 
   const handleDowload = async (taskQr = 1) => {

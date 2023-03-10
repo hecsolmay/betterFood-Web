@@ -1,0 +1,14 @@
+.table-tab{
+    border: none;
+    background: white;
+}
+
+.table-tab.active {
+    /* background:  blue !important; */
+    border-bottom: 2px solid blue;
+}
+
+.app-table-hover {
+    border-color: #E7E9EB;
+    background-color: white;
+}

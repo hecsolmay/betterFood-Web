@@ -11,6 +11,7 @@ import Col from "../../components/col-xl-3";
 import Table from "../../components/tables/table";
 import FormIngredent from "../../components/ingredents/form";
 import * as services from "../../services/ingredents";
+import { deleteAlert } from "../../components/alerts";
 
 const IngredentsPage = () => {
   const [ingredents, setIngredents] = useState([]);
@@ -25,23 +26,26 @@ const IngredentsPage = () => {
     ev.preventDefault();
 
     if (task === 1) {
-      await services.createIngredent(form);
-      alert("creado con exito");
+      const res = await services.createIngredent(form);
+      if ((res.status === 200) | (res.status === 201)) {
+        getData();
+      }
     }
 
     if (task === 2) {
       let ingredentChange = {
         name: form.name,
       };
-      await services.updateIngredent({
+      const res = await services.updateIngredent({
         id: form.id,
         newIngredent: ingredentChange,
       });
-      alert("Actualizado con exito");
       setTask(1);
       setForm({ name: "" });
+      if ((res.status === 200) | (res.status === 201)) {
+        getData();
+      }
     }
-    getData();
   };
 
   const handleChange = (ev) => {
@@ -66,19 +70,18 @@ const IngredentsPage = () => {
     setTask(1);
   };
   const handleDelete = async ({ id, name, active }) => {
-    let status = active === 1 ? 0 : 1;
-    const body = {
-      active: status,
-    };
-    await services.updateIngredent({ id, newIngredent: body });
-    alert(`Cambiado el estado de ${name}`);
-    getData();
+    deleteAlert(name, active === 1).then(async (response) => {
+      if (response.isConfirmed) {
+        const body = active === 1 ? { active: 0 } : { active: 1 };
+        await services.updateIngredent({ id, newIngredent: body });
+        getData();
+      }
+    });
   };
 
   const handleEdit = async (i) => {
     setTask(2);
     setForm({ id: i.id, name: i.name });
-    // await services.updateIngredent({id: i.id})
   };
 
   useEffect(() => {

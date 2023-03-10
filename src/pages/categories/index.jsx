@@ -14,6 +14,7 @@ import Table from "../../components/tables/table";
 import { postFile } from "../../services";
 
 import * as services from "../../services/categories";
+import { createAlert, deleteAlert } from "../../components/alerts";
 
 const categories = () => {
   const [categories, setCategories] = useState([]);
@@ -25,10 +26,6 @@ const categories = () => {
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState(null);
   const [params] = useSearchParams();
-
-  const handleCategoriesChange = (categories) => {
-    setCategories(categories);
-  };
 
   const handleFileUpload = async (ev) => {
     setUploading(true);
@@ -55,15 +52,11 @@ const categories = () => {
 
   const handleSubmit = async (ev) => {
     ev.preventDefault();
-    if (loading) return alert("Todavia Estan cargando los datos");
-
-    await services.createCategory(form);
-    alert("Creado Con exito");
-    $("#Modal").modal("hide");
-    $("#name").val("");
-    $("#image").val("");
-    resetForm();
-    getData();
+    const res = await services.createCategory(form);
+    if (res.status === 201) {
+      resetForm();
+      getData();
+    }
   };
 
   const resetForm = () => {
@@ -78,28 +71,29 @@ const categories = () => {
 
   const handleUpdate = async (ev) => {
     ev.preventDefault();
-    if (loading) return alert("Todavia Estan Cargando los datos");
     setForm({ ...form, imgURL: image });
-    await services.updateCategory({ id, newCategory: form });
-    alert("Actualizado");
-    resetForm();
-    getData();
+    const res = await services.updateCategory({ id, newCategory: form });
+    if (res.status === 200) {
+      getData();
+      resetForm();
+    }
   };
 
   const handleEdit = (category) => {
     $("#ModalUpdate").modal("show");
     setImage(category.imgURL);
-    setForm({ ...form, name: category.name });
+    setForm({ name: category.name });
     setId(category.id);
   };
 
   const handleDelete = async ({ id, name, active, category }) => {
-    const body = active === 1 ? { active: 0 } : { active: 1 };
-    const status = active === 1 ? "inactivo" : "activo";
-    // await deleteCategory(id);
-    await services.updateCategory({ id, newCategory: body });
-    alert(`Cambiado a estado ${status} ${name}`);
-    getData();
+    deleteAlert(name, active === 1).then(async (response) => {
+      if (response.isConfirmed) {
+        const body = active === 1 ? { active: 0 } : { active: 1 };
+        await services.updateCategory({ id, newCategory: body });
+        getData();
+      }
+    });
   };
 
   const getData = async () => {
