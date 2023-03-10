@@ -18,6 +18,10 @@
   color: rgb(7, 201, 7);
 }
 
+.color-detail {
+  color: rgb(66, 66, 223)
+}
+
 .border-red {
   border: 1px solid #e6202091;
 }
@@ -36,4 +40,16 @@
 
 .color-user {
   color: #3f3fbd;
+}
+
+.bg-login {
+  background-color: #909998d3;
+}
+
+.modal-content {
+  color: black;
+}
+
+.table {
+  color: rgb(37, 37, 37);
 }
