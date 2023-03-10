@@ -1,13 +1,11 @@
 import React, { useState } from "react";
 import SelectItems from "./selectItems";
 import { Pagination, Row } from "../../common";
-import {  useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import Button from "./buttons";
 
-const table = ({ children, info = {}, title = "" }) => {
-
-  const [params] =  useSearchParams()
-
+const table = ({ children, info = {}, title = "", placeholder }) => {
+  const [params] = useSearchParams();
 
   return (
     <div className="card shadow mb-4">
@@ -16,25 +14,18 @@ const table = ({ children, info = {}, title = "" }) => {
       </div>
       <div className="card-body">
         <div className="table-responsive">
-          <div
-            className="dataTables_wrapper dt-bootstrap4"
-            id="dataTable_wrapper"
-          >
-            <SelectItems
-            limit={info.limit}
-            />
-            
-            <div className="row mt-3">
-              <div className="col-sm-12">
-                <table
-                  className="table table-bordered"
-                  id="dataTable"
-                  width="100%"
-                  cellSpacing={"0"}
-                >
-                  {children}
-                </table>
-              </div>
+          <SelectItems limit={info.limit} placeholder={placeholder} />
+
+          <div className="row mt-3">
+            <div className="col-sm-12">
+              <table
+                className="table table-bordered"
+                id="dataTable"
+                width="100%"
+                cellSpacing={"0"}
+              >
+                {children}
+              </table>
             </div>
 
             <Pagination info={info ? info : null} />

@@ -38,7 +38,7 @@ const Form = ({
         id="image"
         type="file"
         accept=".jpg,.jpge,.png"
-        required
+        // required
         onChange={handleFileUpload}
       />
     </div>

@@ -2,7 +2,7 @@ import React from "react";
 
 const Container = ({ children }) => {
   return (
-    <div className="bg-dark" style={{minHeight: "100vh"}}>
+    <div className="bg-login" style={{minHeight: "100vh", paddingTop: "30px"}}>
       <div className="container">
         {/* <!-- Outer Row --> */}
         <div className="row justify-content-center">
