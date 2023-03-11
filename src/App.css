@@ -10,6 +10,10 @@
   color: rgb(231, 180, 13);
 }
 
+.color-info {
+  color: #36b9cc
+}
+
 .color-danger {
   color: red;
 }
