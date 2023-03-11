@@ -47,8 +47,6 @@ export const deleteIngredent = async (id) => {
       headers: { Authorization: `Bearer ${getTokenItem()}` },
     };
     const res = await axios.delete(`${ingredentsURL}/${id}`, config);
-    console.log(res);
-
     if (res.status != 200) {
       return console.error("algo salio mal");
     }

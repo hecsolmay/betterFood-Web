@@ -52,7 +52,6 @@ export const updateUser = async (id, userUpdate) => {
     const res = await axios.put(`${usersURL}/change/${id}`, userUpdate, config);
     await updateAlert();
     const { data } = res;
-    console.log(data);
     return data;
   } catch (err) {
     const { response: res } = err;

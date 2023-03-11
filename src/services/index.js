@@ -12,10 +12,8 @@ export const postFile = async ({ file, upload_preset = "" }) => {
 
     const response = await axios.post(cloudURL, form);
 
-    console.log(response);
 
     const { data } = response;
-    console.log(data);
 
     return data;
     // const options = {

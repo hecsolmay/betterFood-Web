@@ -52,7 +52,6 @@ export const deleteCategory = async (id) => {
       headers: { Authorization: `Bearer ${getTokenItem()}` },
     };
     const res = await axios.delete(`${categoriesURL}/${id}`, config);
-    console.log(res);
 
     return res;
   } catch (error) {
