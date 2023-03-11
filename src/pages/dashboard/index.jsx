@@ -6,16 +6,10 @@ const cardDetails = [];
 
 const dashboard = () => (
   <ContainerAdmin>
-    {/* <!-- Main Content --> */}
-    {/* <!-- Begin Page Content --> */}
     <ContainerFluid>
-      {/* <!-- Page Heading --> */}
       <Headers title="Dashboard" />
 
-      {/* <!-- Content Row --> */}
       <Row>
-        {/* <!-- Earnings (Monthly) Card Example --> */}
-
         <EarningsCard
           title="Ganancias (mensuales)"
           quantity="$40,000"
@@ -41,9 +35,6 @@ const dashboard = () => (
         />
       </Row>
 
-      {/* <!-- Content Row --> */}
-
-      {/* <!-- Content Row --> */}
       <Row>
         <div className="col-lg-6 mb-4">
           {/* <!-- Product Card --> */}
@@ -91,18 +82,6 @@ const dashboard = () => (
         </div>
       </Row>
     </ContainerFluid>
-    {/* <!-- /.container-fluid --> */}
-    {/* <!-- End of Main Content --> */}
-
-    {/* <!-- Footer --> */}
-    <footer className="sticky-footer bg-white">
-      <div className="container my-auto">
-        <div className="copyright text-center my-auto">
-          <span>Copyright &copy; Your Website 2021</span>
-        </div>
-      </div>
-    </footer>
-    {/* <!-- End of Footer --> */}
   </ContainerAdmin>
 );
 

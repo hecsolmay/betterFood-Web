@@ -21,26 +21,25 @@ const login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const res = await singin(form);
-    if (res.status === 400) {
+    console.log(res);
+
+    if (res.status === 200) {
+      const { data } = res;
+      setError(false);
+      setItems(data);
+
+      if (data.user.rol.name === "admin") {
+        return navigate("/dashboard");
+      }
+
+      unauthorizedError();
+    } else {
       var inputs = document.getElementsByTagName("input");
       for (let i = 0; i < inputs.length; i++) {
         inputs[i].blur();
       }
       setError(true);
     }
-
-    const { data } = res;
-    setError(false);
-    setItems(data);
-
-    if (data.user.rol.name === "admin") {
-      return navigate("/dashboard");
-    }
-
-    unauthorizedError();
-
-    let token = getTokenItem();
-    let user = getUser();
   };
   return (
     <Container>

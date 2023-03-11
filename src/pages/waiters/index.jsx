@@ -162,6 +162,7 @@ const WaitersPage = () => {
                         <th>Nombre</th>
                         <th>Apellido</th>
                         <th>Fecha de Nacimiento</th>
+                        <th>Edad</th>
                         <th>Activo</th>
                         <th>QR</th>
                         <th>Acciones</th>
@@ -173,6 +174,7 @@ const WaitersPage = () => {
                           <td>{w.name}</td>
                           <td>{w.lastName}</td>
                           <td>{new Date(w.birthdate).toLocaleDateString()}</td>
+                          <td>{w.age}</td>
                           <td>{w.active === 1 ? "Si" : "No"}</td>
                           <td>
                             {/* <button
