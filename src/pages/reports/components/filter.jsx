@@ -30,13 +30,15 @@ function Filter() {
       </div>
       <div className="col-sm-12 col-md-6">
         <label>Fecha de reporte</label>
-        <input
-          placeholder="selecciona tu fecha"
-          name="date"
-          type="date"
-          onChange={handleChange}
-          className="form-control"
-        />
+        <div className="calendary">
+          <input
+            placeholder="selecciona tu fecha"
+            name="date"
+            type="date"
+            onChange={handleChange}
+            className="form-control"
+          />
+        </div>
       </div>
     </div>
   );
