@@ -57,3 +57,15 @@
 .table {
   color: rgb(37, 37, 37);
 }
+
+.calendary {
+  width: 200px;
+}
+
+.container-fluid {
+  min-height: 70%;
+}
+
+.loader-dash {
+  margin-top: 27%;
+}
