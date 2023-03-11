@@ -21,10 +21,20 @@ export const ButtonModal = ({ title = "" }) => (
   </button>
 );
 
-export const Loader = () => (
+export const Loader = ({ path = "/img/loading.gif" }) => (
   <div className="text-center">
-    <img src="/public/img/loading.gif" className="loader" />
+    <img src={path} className="loader" />
   </div>
+);
+
+export const Footer = () => (
+  <footer className="sticky-footer bg-white">
+    <div className="container my-auto">
+      <div className="copyright text-center my-auto">
+        <span>Copyright &copy; Your Website 2021</span>
+      </div>
+    </div>
+  </footer>
 );
 
 export const ContainerAdmin = ({ children }) => {
@@ -45,6 +55,7 @@ export const ContainerAdmin = ({ children }) => {
       <div id="content-wrapper" className="d-flex flex-column">
         <Topbar showSideBar={showSideBar} setShowSideBar={setShowSideBar} />
         {children}
+        <Footer />
       </div>
     </div>
   );

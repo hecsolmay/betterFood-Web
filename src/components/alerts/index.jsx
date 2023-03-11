@@ -22,8 +22,24 @@ export const createUserAlert = () => {
 
 export const updateAlertSale = () => {
   return Swal.fire(
-    "Venta realizada con exito!",
+    "Venta actualizada con exito!",
     `la actualizacion de la venta fue un exito`,
+    "success"
+  );
+};
+
+export const deleteAlertOrder = () => {
+  return Swal.fire(
+    "Orden cancelada con exito!",
+    `la cancelacion la orden fue un exito`,
+    "success"
+  );
+};
+
+export const updateAlertOrder = () => {
+  return Swal.fire(
+    "Orden actualizada con exito!",
+    `la actualizacion de la orden fue un exito`,
     "success"
   );
 };
@@ -37,6 +53,30 @@ export const warningRolAlert = (rol = "usuario", username = "username") => {
     confirmButtonColor: "#3085d6",
     cancelButtonColor: "#d33",
     confirmButtonText: "Si cambiar el rol",
+  });
+};
+
+export const warningOrderAlert = () => {
+  return Swal.fire({
+    title: "¿Cancelar orden?",
+    text: `Estas seguro de cancelar la orden`,
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Si cancelarla",
+  });
+};
+
+export const warningOrderStatusAlert = () => {
+  return Swal.fire({
+    title: "¿Cambiar estatus de orden?",
+    text: `Estas seguro de cambiar el estatus de la orden`,
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Si cambiarla",
   });
 };
 
