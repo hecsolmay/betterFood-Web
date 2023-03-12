@@ -4,7 +4,7 @@ import {
   ContainerFluid,
   Headers,
   Loader,
-  Row
+  Row,
 } from "../../common";
 import EarningsCard from "../../components/dashboard/earningsCard";
 import { getDashboard } from "../../services/dashboard";
@@ -114,15 +114,17 @@ const Dashboard = () => {
               </Row>
 
               <Row>
-                <Card title="Mesero del mes" image="img/waiterProfile.png">
-                  <div className="text-center">
-                    <h4>{data.monthWaiter.name}</h4>
-                  </div>
-                  <div className="text-center mt-4">
-                    <p>{`Ventas del mes: ${data.monthWaiter.totalSales}`}</p>
-                  </div>
-                  <br />
-                </Card>
+                {data.monthWaiter && (
+                  <Card title="Mesero del mes" image="img/waiterProfile.png">
+                    <div className="text-center">
+                      <h4>{data.monthWaiter.name}</h4>
+                    </div>
+                    <div className="text-center mt-4">
+                      <p>{`Ventas del mes: ${data.monthWaiter.totalSales}`}</p>
+                    </div>
+                    <br />
+                  </Card>
+                )}
                 <Card
                   title="Producto Mas vendido"
                   image={data.topProduct.imgURL}

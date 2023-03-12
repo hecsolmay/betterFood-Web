@@ -2,14 +2,16 @@ import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import {
   ContainerAdmin,
-  ContainerFluid, Headers, Pagination
+  ContainerFluid,
+  Headers,
+  Pagination,
 } from "../../common";
 import {
   warningOrderAlert,
-  warningOrderStatusAlert
+  warningOrderStatusAlert,
 } from "../../components/alerts";
 import * as services from "../../services/sales";
-import Filter from "./components/Filter";
+import Filter from "./components/filter";
 import NavTable from "./components/navTable";
 import SaleRow from "./components/saleRow";
 import Table from "./components/table";
