@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import {
   ButtonModal,
   ContainerAdmin,
   ContainerFluid,
-  Headers,
+  Headers
 } from "../../common";
-import { useSearchParams } from "react-router-dom";
 import { TableHeaders, TableItems } from "../../components/categories";
 import CategoryForm from "../../components/categories/form";
 import CategoryFormUpdate from "../../components/categories/updateForm";
@@ -13,8 +13,8 @@ import Modal from "../../components/modal";
 import Table from "../../components/tables/table";
 import { postFile } from "../../services";
 
+import { deleteAlert } from "../../components/alerts";
 import * as services from "../../services/categories";
-import { createAlert, deleteAlert } from "../../components/alerts";
 
 const categories = () => {
   const [categories, setCategories] = useState([]);

@@ -6,7 +6,7 @@ import {
   Headers,
   Loader,
   Pagination,
-  Row,
+  Row
 } from "../../common";
 import { deleteAlert } from "../../components/alerts";
 import Col from "../../components/col-xl-3";

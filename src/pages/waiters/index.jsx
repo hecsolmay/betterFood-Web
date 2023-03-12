@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import {
-  Headers,
   ContainerAdmin,
   ContainerFluid,
-  Row,
+  Headers,
   Loader,
+  Row,
 } from "../../common";
 import { deleteAlert } from "../../components/alerts";
 import Col from "../../components/col-xl-3";
@@ -146,7 +146,7 @@ const WaitersPage = () => {
                   className="btn btn-large btn-primary"
                   onClick={async () => await handleDowload(2)}
                 >
-                  Generar Todos los Qrs{" "}
+                  Generar Todos los Qrs
                 </button>
               </div>
             </Row>
@@ -177,14 +177,6 @@ const WaitersPage = () => {
                           <td>{w.age}</td>
                           <td>{w.active === 1 ? "Si" : "No"}</td>
                           <td>
-                            {/* <button
-                              className={
-                                w.active == 1
-                                  ? "btn btn-sm btn-dark"
-                                  : "btn btn-sm btn-dark disabled"
-                              }
-                              onClick={async () => handleDownloadId(w.id)}
-                            ></button> */}
                             {w.active == 1 ? (
                               <i
                                 className="fa-solid fa-qrcode cursor-pointer"

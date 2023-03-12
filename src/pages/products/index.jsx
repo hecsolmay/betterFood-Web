@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import {
   ButtonModal,
   ContainerAdmin,
   ContainerFluid,
-  Headers,
+  Headers
 } from "../../common";
+import { deleteAlert } from "../../components/alerts";
 import Modal from "../../components/modal";
-import { useSearchParams } from "react-router-dom";
 import { TableHeaders, TableItems } from "../../components/products";
 import { ProductForm } from "../../components/products/forms";
 import UpdateForm from "../../components/products/updateForm";
@@ -16,7 +17,6 @@ import { getAllCategories } from "../../services/categories";
 import { getAllIngredents } from "../../services/ingredents";
 import * as services from "../../services/products";
 import "./index.css";
-import { deleteAlert } from "../../components/alerts";
 
 const products = () => {
   const [products, setProducts] = useState([]);

@@ -1,5 +1,5 @@
 import React from "react";
-import { Headers, ContainerAdmin, ContainerFluid, Row } from "../../common";
+import { ContainerAdmin, ContainerFluid, Headers, Row } from "../../common";
 import AccountDetails from "../../components/profile/accountDetails";
 import ProfilePicture from "../../components/profile/profilePicture";
 import { getUser } from "../../utils/localStorage";

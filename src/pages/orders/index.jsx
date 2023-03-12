@@ -1,21 +1,19 @@
-import React, { useState, useEffect, useContext } from "react";
-import { Link, useSearchParams } from "react-router-dom";
-import SaleRow from "./components/saleRow";
+import React, { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import {
-  Headers,
   ContainerAdmin,
-  ContainerFluid,
-  Pagination,
+  ContainerFluid, Headers, Pagination
 } from "../../common";
-import Filter from "./components/Filter";
-import NavTable from "./components/navTable";
-import Table from "./components/table";
-import * as services from "../../services/sales";
-import "./index.css";
 import {
   warningOrderAlert,
-  warningOrderStatusAlert,
+  warningOrderStatusAlert
 } from "../../components/alerts";
+import * as services from "../../services/sales";
+import Filter from "./components/Filter";
+import NavTable from "./components/navTable";
+import SaleRow from "./components/saleRow";
+import Table from "./components/table";
+import "./index.css";
 
 const OrdersPage = () => {
   const [sales, setSales] = useState([]);

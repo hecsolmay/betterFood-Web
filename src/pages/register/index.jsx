@@ -1,9 +1,8 @@
 import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { Row } from "../../common";
 import Container from "../../components/login/container";
-import { Link, useNavigate } from "react-router-dom";
 import { signup } from "../../services/users";
-import { getTokenItem, getUser, setItems } from "../../utils/localStorage";
 
 const register = () => {
   const [form, setform] = useState({});

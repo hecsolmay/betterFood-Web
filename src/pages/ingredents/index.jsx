@@ -1,17 +1,14 @@
-import React, { useState, useEffect } from "react";
-import {
-  Headers,
-  ContainerAdmin,
-  ContainerFluid,
-  Row,
-  Loader,
-} from "../../common";
+import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import Col from "../../components/col-xl-3";
-import Table from "../../components/tables/table";
-import FormIngredent from "../../components/ingredents/form";
-import * as services from "../../services/ingredents";
+import {
+  ContainerAdmin,
+  ContainerFluid, Headers, Loader, Row
+} from "../../common";
 import { deleteAlert } from "../../components/alerts";
+import Col from "../../components/col-xl-3";
+import FormIngredent from "../../components/ingredents/form";
+import Table from "../../components/tables/table";
+import * as services from "../../services/ingredents";
 
 const IngredentsPage = () => {
   const [ingredents, setIngredents] = useState([]);

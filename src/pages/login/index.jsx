@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { Row } from "../../common";
-import Container from "../../components/login/container";
 import { Link, useNavigate } from "react-router-dom";
-import { singin } from "../../services/users";
-import { setItems, getTokenItem, getUser } from "../../utils/localStorage";
+import { Row } from "../../common";
 import { unauthorizedError } from "../../components/alerts";
+import Container from "../../components/login/container";
+import { singin } from "../../services/users";
+import { setItems } from "../../utils/localStorage";
 import "./index.css";
 
 const login = () => {

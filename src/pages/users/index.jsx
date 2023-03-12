@@ -1,16 +1,13 @@
-import React, { useState, useEffect } from "react";
-import {
-  Headers,
-  ContainerAdmin,
-  ContainerFluid,
-  Row,
-  Loader,
-} from "../../common";
-import * as services from "../../services/users";
-import Table from "../../components/tables/table";
+import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { getUser } from "../../utils/localStorage";
+import {
+  ContainerAdmin,
+  ContainerFluid, Headers, Loader
+} from "../../common";
 import { deleteAlert, warningRolAlert } from "../../components/alerts";
+import Table from "../../components/tables/table";
+import * as services from "../../services/users";
+import { getUser } from "../../utils/localStorage";
 
 const roles = () => {
   const [users, setUsers] = useState([]);

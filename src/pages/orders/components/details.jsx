@@ -101,3 +101,87 @@ export const LeftCard = ({ items = [], products = [] }) => {
     </div>
   );
 };
+
+export const Info = ({ sale, paid = false, handleSubmit, handleChange }) => {
+  return (
+    <div className="col-md-4 summary-shopping">
+      <div>
+        <h5>
+          <b>Info</b>
+        </h5>
+      </div>
+      <hr />
+      <div className="row">
+        <div className="col text-left">{`Mesa ${sale.order?.tableId.numMesa}`}</div>
+        <div className="col text-right">{`Mesero: ${sale.order?.waiterId.name} ${sale.order?.waiterId.lastName}`}</div>
+      </div>
+      {!paid && !sale.canceled && (
+        <div
+          className="row mt-2"
+          style={{
+            borderTop: "1px solid rgba(0,0,0,.1)",
+            padding: "2vh 0",
+          }}
+        >
+          <div className="col text-left">{`ITEMS ${sale.order?.totalQuantity}`}</div>
+          <div className="col text-right">{`$ ${sale.order?.total.toFixed(
+            2
+          )}`}</div>
+        </div>
+      )}
+      {!paid && !sale.canceled && (
+        <form className="form-shopping" id="payment" onSubmit={handleSubmit}>
+          <p>INGRESA EL PAGO</p>
+          <input
+            className="input-shopping"
+            placeholder="Ingresa el pago"
+            type="number"
+            name="moneyReceived"
+            onChange={handleChange}
+            required
+            min={sale.order?.total.toFixed(2)}
+          />
+        </form>
+      )}
+      <div
+        className="row"
+        style={{
+          borderTop: "1px solid rgba(0,0,0,.1)",
+          padding: "2vh 0",
+        }}
+      >
+        <div className="col text-left">PRECIO TOTAL</div>
+        <div className="col text-right">{`$ ${sale.order?.total.toFixed(
+          2
+        )}`}</div>
+      </div>
+      {paid && sale.canceled && (
+        <div
+          className="row"
+          style={{
+            borderTop: "1px solid rgba(0,0,0,.1)",
+            padding: "2vh 0",
+          }}
+        >
+          <div className="col text-left">Dinero Recibido</div>
+          <div className="col text-right">{`$ ${sale.moneyReceived}`}</div>
+        </div>
+      )}
+      <div
+        className="row"
+        style={{
+          borderTop: "1px solid rgba(0,0,0,.1)",
+          padding: "2vh 0",
+        }}
+      >
+        <div className="col text-left">CAMBIO</div>
+        <div className="col text-right">{`$ ${sale.change}`}</div>
+      </div>
+      {!paid && !sale.canceled && (
+        <button className="btn-shopping" type="submit" form="payment">
+          PAGAR
+        </button>
+      )}
+    </div>
+  );
+};

@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import {
-  Headers,
   ContainerAdmin,
-  ContainerFluid,
-  Loader,
-  Pagination,
+  ContainerFluid, Headers, Loader,
+  Pagination
 } from "../../common";
 import { getReports } from "../../services/sales";
 import Container from "./components/container";
