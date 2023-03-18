@@ -53,6 +53,7 @@ export const warningRolAlert = (rol = "usuario", username = "username") => {
     confirmButtonColor: "#3085d6",
     cancelButtonColor: "#d33",
     confirmButtonText: "Si cambiar el rol",
+    cancelButtonText: "No",
   });
 };
 
@@ -65,6 +66,7 @@ export const warningOrderAlert = () => {
     confirmButtonColor: "#3085d6",
     cancelButtonColor: "#d33",
     confirmButtonText: "Si cancelarla",
+    cancelButtonText: "No",
   });
 };
 
@@ -77,6 +79,20 @@ export const warningOrderStatusAlert = () => {
     confirmButtonColor: "#3085d6",
     cancelButtonColor: "#d33",
     confirmButtonText: "Si cambiarla",
+    cancelButtonText: "No",
+  });
+};
+
+export const infoNewOrderAlert = () => {
+  return Swal.fire({
+    title: "Nueva Orden Entrante",
+    text: "Deseas actualizar para ver la nueva orden, esto limpiara todas las busquedas y los filtros hechos previamente",
+    icon: "info",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Si",
+    cancelButtonText: "No",
   });
 };
 

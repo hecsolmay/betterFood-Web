@@ -1,7 +1,7 @@
 import React from "react";
 import { useSearchParams } from "react-router-dom";
 
-function Filter() {
+function Filter({ selected, setSelected }) {
   const [params, setParams] = useSearchParams();
 
   const handleKeySearch = (ev) => {
@@ -18,6 +18,7 @@ function Filter() {
     params.delete("orderNumber");
     params.set("date", ev.target.value);
     setParams(params);
+    setSelected(ev.target.value);
   };
 
   const handleSearch = () => {
@@ -59,7 +60,11 @@ function Filter() {
             </div>
             {/* <!--//col--> */}
             <div className="col-auto">
-              <select className="form-select w-auto" onChange={handleSelect}>
+              <select
+                className="form-select w-auto"
+                onChange={handleSelect}
+                value={selected}
+              >
                 <option value="today">Hoy</option>
                 <option value="week">Esta semana</option>
                 <option value="month">Este mes</option>

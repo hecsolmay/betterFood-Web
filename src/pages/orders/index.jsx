@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import io from "socket.io-client";
+import { API_SOCKET_URL } from "../../../config";
 import {
   ContainerAdmin,
   ContainerFluid,
@@ -7,6 +9,7 @@ import {
   Pagination,
 } from "../../common";
 import {
+  infoNewOrderAlert,
   warningOrderAlert,
   warningOrderStatusAlert,
 } from "../../components/alerts";
@@ -21,7 +24,9 @@ const OrdersPage = () => {
   const [sales, setSales] = useState([]);
   const [info, setInfo] = useState({});
   const [loading, setLoading] = useState(true);
-  const [params] = useSearchParams();
+  const [params, setParams] = useSearchParams();
+  const [activeTab, setActiveTab] = useState("");
+  const [selected, setSelected] = useState("today");
 
   const getData = async () => {
     setLoading(true);
@@ -65,15 +70,57 @@ const OrdersPage = () => {
     getData();
   }, [params]);
 
+  useEffect(() => {
+    const socket = io(API_SOCKET_URL);
+    socket.on("connect", () => {
+      console.log("Connect to server");
+      socket.emit("join", "63f804a8757fa73689a81958");
+      console.log("join Emitido");
+    });
+    socket.on("newOrder", (newOrder) => {
+      console.log("Escuchó la nueva orden");
+
+      infoNewOrderAlert().then((res) => {
+        if (res.isConfirmed) {
+          console.log(newOrder);
+          setInfo(newOrder.info);
+          setSales(newOrder.results);
+          resetParams();
+        } else {
+          console.log("No actualizo");
+        }
+      });
+    });
+
+    socket.on("newOrderWaiter", (data) => {
+      console.log("se conecto");
+      console.log(data);
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
+
+  const resetParams = () => {
+    params.delete("date");
+    params.delete("status");
+    params.delete("orderNumber");
+    params.delete("page");
+    setParams(params);
+    setActiveTab("all");
+    setSelected("today");
+  };
+
   return (
     <ContainerAdmin>
       <ContainerFluid>
         <Headers title="Orders" />
         <div className="app-content pt-3 p-md-3 p-lg-4">
           <div className="container-xl">
-            <Filter />
+            <Filter selected={selected} setSelected={setSelected} />
 
-            <NavTable />
+            <NavTable activeTab={activeTab} setActiveTab={setActiveTab} />
 
             <Table>
               <thead>

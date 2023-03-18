@@ -156,7 +156,7 @@ const CreatePageNumber = ({ total = 1, current = 1 }) => {
     setParams(params);
   };
 
-  if (current > 3) {
+  if (current > 4) {
     if (current + 2 <= total) {
       for (let i = current - 2; i <= current + 2; i++) {
         numbers.push({ number: i, active: i === current });
