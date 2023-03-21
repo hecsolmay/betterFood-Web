@@ -96,6 +96,10 @@ const OrdersPage = () => {
       console.log("se conecto");
       console.log(data);
     });
+    socket.on("notification", (data) => {
+      console.log("se conecto");
+      console.log(data);
+    });
 
     return () => {
       socket.disconnect();
