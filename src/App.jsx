@@ -19,6 +19,7 @@ import Waiters from "./pages/waiters/";
 import MainRoute from "./utils/mainRoute";
 import ProtectedRoutes from "./utils/protectedRoutes";
 import { PreviousPageProvider } from "./context/PageContext";
+import QrsPage from "./pages/qrs";
 
 const App = () => {
   return (
@@ -33,6 +34,7 @@ const App = () => {
             <Route path="/products" element={<Produts />} />
             <Route path="/categories" element={<Categories />} />
             <Route path="/ingredents" element={<Ingredents />} />
+            <Route path="/qrs" element={<QrsPage />} />
             <Route path="/waiters" element={<Waiters />} />
             <Route path="/tables" element={<Tables />} />
             <Route path="/reports" element={<Reports />} />
