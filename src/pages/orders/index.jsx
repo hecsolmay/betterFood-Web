@@ -42,6 +42,19 @@ const OrdersPage = () => {
     setLoading(false);
   };
 
+  const handleStatusChanged = (order) => {
+    const { id, status } = order;
+    console.log(sales);
+    console.log(id);
+    const index = sales.findIndex((s) => s.order.id == id);
+    console.log(index);
+    if (index != -1) {
+      console.log("Entro");
+      sales[index].order.status = status;
+      setSales(sales);
+    }
+  };
+
   const handleDelete = (id) => {
     console.log(id);
 
@@ -77,15 +90,16 @@ const OrdersPage = () => {
       socket.emit("join", "63f804a8757fa73689a81958");
       console.log("join Emitido");
     });
+
     socket.on("newOrder", (newOrder) => {
       console.log("Escuchó la nueva orden");
 
       infoNewOrderAlert().then((res) => {
         if (res.isConfirmed) {
           console.log(newOrder);
+          resetParams();
           setInfo(newOrder.info);
           setSales(newOrder.results);
-          resetParams();
         } else {
           console.log("No actualizo");
         }
@@ -96,15 +110,40 @@ const OrdersPage = () => {
       console.log("se conecto");
       console.log(data);
     });
+
     socket.on("notification", (data) => {
       console.log("se conecto");
       console.log(data);
     });
 
+    socket.on("updatedStatus", (data) => {
+      console.log("se actualizo el status");
+      console.log(data);
+      const { order } = data;
+      const { id, status } = order;
+      console.log(sales);
+      console.log(id);
+      console.log(status);
+      const index = sales.findIndex((s) => s.order.id == id);
+      console.log(index);
+      if (index != -1) {
+        console.log("Entro");
+        sales[index].order.status = status;
+        console.log(sales[index]);
+        const newSales = [...sales];
+        setSales(newSales);
+      }
+    });
+
+    // socket.on("WaiterUpdatedOrderStatus", (data) => {
+    //   console.log("se actualizo el status desde el mesero");
+    //   console.log(data);
+    // });
+
     return () => {
       socket.disconnect();
     };
-  }, []);
+  }, [sales]);
 
   const resetParams = () => {
     params.delete("date");
