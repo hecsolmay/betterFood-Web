@@ -9,9 +9,9 @@ const notFound = () => {
         <p className="fs-3">
           <span className="text-danger">Opps!</span> Page not found.
         </p>
-        <p className="lead">The page you're looking for doesn't exist.</p>
-        <Link to="/dashboard" className="btn btn-primary">
-          Go Home
+        <p className="lead">La pagina que estas buscando no existe.</p>
+        <Link to="/" className="btn btn-primary">
+          Volver al Inicio
         </Link>
       </div>
     </div>

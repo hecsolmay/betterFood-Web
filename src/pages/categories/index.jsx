@@ -116,7 +116,7 @@ const categories = () => {
   return (
     <ContainerAdmin>
       <ContainerFluid>
-        <Headers title="Categories" />
+        <Headers title="Categorías" />
         <ButtonModal title="Crear Categoria" />
         <div className={error ? "text-center mb-5 mt-5" : "d-none  "}>
           <h1>Ocurrio un error al traer los datos</h1>

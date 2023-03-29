@@ -73,7 +73,7 @@ const roles = () => {
   return (
     <ContainerAdmin>
       <ContainerFluid>
-        <Headers title="Users" />
+        <Headers title="Usuarios" />
         <div className={error ? "text-center mb-5 mt-5" : "d-none  "}>
           <h1>Ocurrio un error al traer los datos</h1>
           <button className="btn btn-primary" onClick={getData}>

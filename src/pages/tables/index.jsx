@@ -103,7 +103,7 @@ const TablesPage = () => {
   return (
     <ContainerAdmin>
       <ContainerFluid>
-        <Headers title="Tables" />
+        <Headers title="Mesas" />
         <Row>
           <Col colSize="col-lg-4">
             <form className="row g-3" id="form" onSubmit={handleSubmit}>

@@ -112,7 +112,7 @@ const WaitersPage = () => {
   return (
     <ContainerAdmin>
       <ContainerFluid>
-        <Headers title="waiters" />
+        <Headers title="Meseros" />
         <Row>
           <Col colSize="col-lg-4">
             <FormWaiter

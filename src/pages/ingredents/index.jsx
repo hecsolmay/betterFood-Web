@@ -88,7 +88,7 @@ const IngredentsPage = () => {
   return (
     <ContainerAdmin>
       <ContainerFluid>
-        <Headers title="Ingredents" />
+        <Headers title="Ingredientes" />
         <Row>
           <Col colSize="col-lg-4">
             <FormIngredent

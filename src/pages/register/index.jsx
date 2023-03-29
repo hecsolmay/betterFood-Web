@@ -7,10 +7,15 @@ import { signup } from "../../services/users";
 const register = () => {
   const [form, setform] = useState({});
   const [error, setError] = useState(false);
+  const [show, setShow] = useState(true);
   const navigate = useNavigate();
 
   const handleChange = (ev) => {
     setform({ ...form, [ev.target.name]: ev.target.value });
+  };
+
+  const handleShow = () => {
+    setShow(!show);
   };
 
   const handleSubmit = async (ev) => {
@@ -88,9 +93,9 @@ const register = () => {
                     </p>
                   </div>
                 )}
-                <div className="col-sm-6 mb-3 mb-sm-4">
+                <div className="col-sm-12 mb-3 mb-sm-4 d-flex align-items-center">
                   <input
-                    type="password"
+                    type={show ? "text" : "password"}
                     className={
                       error
                         ? "form-control form-control-user border-red"
@@ -100,8 +105,16 @@ const register = () => {
                     name="password"
                     required
                   />
+                  <i
+                    class={
+                      show
+                        ? "fa-solid fa-eye-slash ms-2 hover-card"
+                        : "fa-solid fa-eye ms-2 hover-card"
+                    }
+                    onClick={handleShow}
+                  />
                 </div>
-                <div className="col-sm-6 mb-3 mb-sm-4">
+                <div className="col-sm-12 mb-3 mb-sm-4">
                   <input
                     type="password"
                     className={

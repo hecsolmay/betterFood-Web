@@ -9,7 +9,7 @@ const profile = () => {
   return (
     <ContainerAdmin>
       <ContainerFluid>
-        <Headers title="profile" />
+        <Headers title="Perfil" />
         <Row>
           <ProfilePicture picture={user.picture} />
           <AccountDetails user={user} />

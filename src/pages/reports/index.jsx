@@ -37,7 +37,7 @@ const reports = () => {
   return (
     <ContainerAdmin>
       <ContainerFluid>
-        <Headers title="Reports" />
+        <Headers title="Reportes" />
         {loading ? (
           <Loader />
         ) : (

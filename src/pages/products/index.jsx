@@ -188,7 +188,7 @@ const products = () => {
   return (
     <ContainerAdmin>
       <ContainerFluid>
-        <Headers title="Products" />
+        <Headers title="Productos" />
         <ButtonModal title="Crear Producto" />
         <div className={error ? "text-center mb-5 mt-5" : "d-none  "}>
           <h1>Ocurrio un error al traer los datos</h1>

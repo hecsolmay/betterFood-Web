@@ -158,7 +158,7 @@ const OrdersPage = () => {
   return (
     <ContainerAdmin>
       <ContainerFluid>
-        <Headers title="Orders" />
+        <Headers title="Ordenes" />
         <div className="app-content pt-3 p-md-3 p-lg-4">
           <div className="container-xl">
             <Filter selected={selected} setSelected={setSelected} />
