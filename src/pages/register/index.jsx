@@ -7,7 +7,7 @@ import { signup } from "../../services/users";
 const register = () => {
   const [form, setform] = useState({});
   const [error, setError] = useState(false);
-  const [show, setShow] = useState(true);
+  const [show, setShow] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (ev) => {
